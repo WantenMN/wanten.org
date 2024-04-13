@@ -1,0 +1,55 @@
+@tailwind components;
+
+@layer components {
+  .markdown-body h1 {
+    @apply text-center text-2xl font-medium;
+  }
+
+  .markdown-body h2 {
+    @apply mb-4 mt-10 text-xl font-medium;
+  }
+
+  .markdown-body p {
+    @apply mb-6 text-base leading-normal text-zinc-800;
+  }
+
+  .markdown-body ul,
+  .markdown-body ol {
+    @apply mb-4 pl-6 text-base leading-relaxed;
+  }
+
+  .markdown-body ul li {
+    @apply list-disc;
+  }
+
+  .markdown-body ol li {
+    @apply list-decimal;
+  }
+
+  .markdown-body a {
+    @apply text-blue-600 hover:text-blue-800 hover:underline;
+  }
+
+  .markdown-body blockquote {
+    @apply border-l-4 border-zinc-200 pl-4 italic;
+  }
+
+  .markdown-body code {
+    @apply rounded bg-zinc-100 px-2 py-1;
+  }
+
+  .markdown-body pre {
+    @apply mb-6 overflow-x-auto rounded bg-zinc-100 px-4 py-2 text-zinc-800;
+  }
+  .markdown-body pre code {
+    @apply bg-transparent;
+  }
+
+  .markdown-body hr {
+    @apply my-4;
+  }
+
+  .markdown-body image {
+    @apply h-auto max-w-sm;
+  }
+}
