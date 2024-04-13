@@ -73,4 +73,7 @@
   body {
     @apply bg-zinc-100 font-my-font text-foreground;
   }
+  ::selection {
+    @apply bg-zinc-200 text-zinc-800;
+  }
 }
