@@ -1,12 +1,12 @@
 import fs from "fs";
 import matter from "gray-matter";
 import path from "path";
-import { unified } from "unified";
 import rehypeExternalLinks from "rehype-external-links";
+import rehypeFormat from "rehype-format";
+import rehypeStringify from "rehype-stringify";
 import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
-import rehypeStringify from "rehype-stringify";
-import rehypeFormat from "rehype-format";
+import { unified } from "unified";
 
 const postsDirectory = path.join(process.cwd(), "src/posts");
 

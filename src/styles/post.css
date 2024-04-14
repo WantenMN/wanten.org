@@ -2,7 +2,7 @@
 
 @layer components {
   .markdown-body h1 {
-    @apply text-center text-2xl font-medium;
+    @apply text-2xl font-medium;
   }
 
   .markdown-body h2 {

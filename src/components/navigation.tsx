@@ -25,7 +25,7 @@ const Navigation = () => {
   ];
 
   return (
-    <nav className="mb-4 flex w-full select-none items-center justify-end border-b border-zinc-100 pb-4">
+    <nav className="flex w-full select-none items-center justify-end">
       <ul className="flex leading-none text-zinc-400">
         {pages.map((page, index) => (
           <li key={index} className="flex">
@@ -39,10 +39,7 @@ const Navigation = () => {
               {page.title}
             </Link>
             {index !== pages.length - 1 ? (
-              <Separator
-                orientation="vertical"
-                className="mx-4 h-auto bg-zinc-200"
-              />
+              <Separator orientation="vertical" />
             ) : (
               <></>
             )}
