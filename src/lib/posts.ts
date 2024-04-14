@@ -1,8 +1,12 @@
 import fs from "fs";
 import matter from "gray-matter";
 import path from "path";
-import { remark } from "remark";
-import html from "remark-html";
+import { unified } from "unified";
+import rehypeExternalLinks from "rehype-external-links";
+import remarkParse from "remark-parse";
+import remarkRehype from "remark-rehype";
+import rehypeStringify from "rehype-stringify";
+import rehypeFormat from "rehype-format";
 
 const postsDirectory = path.join(process.cwd(), "src/posts");
 
@@ -49,8 +53,12 @@ export async function getPostData({
   const fullPath = path.join(postsDirectory, prefixDir, `${id}.md`);
   const fileContents = fs.readFileSync(fullPath, "utf8");
   const matterResult = matter(fileContents);
-  const processedContent = await remark()
-    .use(html)
+  const processedContent = await unified()
+    .use(remarkParse)
+    .use(remarkRehype)
+    .use(rehypeExternalLinks, { target: "_blank" })
+    .use(rehypeFormat)
+    .use(rehypeStringify)
     .process(matterResult.content);
   const contentHtml = processedContent.toString();
 
