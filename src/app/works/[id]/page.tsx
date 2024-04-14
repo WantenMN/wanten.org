@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 
 import Post from "@/components/post";
-import { baseDesc, baseTitle } from "@/config/constants";
+import { baseTitle } from "@/config/constants";
 import { getPostData, PostData } from "@/lib/posts";
 
 interface Props {
