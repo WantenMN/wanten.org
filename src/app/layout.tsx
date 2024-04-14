@@ -3,9 +3,9 @@ import "./globals.css";
 import "@/styles/post.css";
 
 import { Inter, Noto_Sans_SC } from "next/font/google";
-import localFont from "next/font/local";
 
 import Container from "@/components/container";
+import { baseDesc, baseTitle } from "@/config/constants";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -20,8 +20,8 @@ const notoSansSC = Noto_Sans_SC({
 });
 
 export const metadata: Metadata = {
-  title: "Wanten Moment Now",
-  description: "Wanten's personal website showcases his work and thoughts.",
+  title: baseTitle,
+  description: baseDesc,
 };
 
 export default function RootLayout({
