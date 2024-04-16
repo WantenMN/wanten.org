@@ -29,3 +29,7 @@ A simple web application to display randomly generated common Chinese characters
 - **Settings**
 
 ![Settings](https://github.com/WantenMN/random-chinese-characters/raw/main/assets/screenshots/settings.png)
+
+## License
+
+This project is licensed under the [MIT License](https://raw.githubusercontent.com/WantenMN/random-chinese-characters/main/LICENSE).

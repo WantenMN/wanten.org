@@ -32,3 +32,7 @@ The first screenshot displays the enhanced full-screen mode with hidden interfac
 ![Disable](https://raw.githubusercontent.com/WantenMN/youtube-fullscreen-enhancer/main/assets/images/disable.png)
 
 > The source of the video captured in the screenshots is: [https://www.youtube.com/watch?v=wFcOuJmgTno](https://www.youtube.com/watch?v=wFcOuJmgTno)
+
+## License
+
+This project is licensed under the [MIT License](https://raw.githubusercontent.com/WantenMN/youtube-fullscreen-enhancer/main/LICENSE).
