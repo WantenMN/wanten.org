@@ -8,14 +8,28 @@
   .markdown-body h2 {
     @apply mb-4 mt-10 text-xl font-medium;
   }
+  .markdown-body h3 {
+    @apply mb-4 text-[1.2rem] font-medium;
+  }
+  .markdown-body h4 {
+    @apply mb-4 text-[1.1rem] font-medium;
+  }
 
   .markdown-body p {
     @apply mb-6 text-base leading-normal text-zinc-800;
   }
 
+  .markdown-body strong {
+    @apply font-semibold;
+  }
+
   .markdown-body ul,
   .markdown-body ol {
     @apply mb-4 pl-6 text-base leading-relaxed;
+  }
+
+  .markdown-body li {
+    @apply mb-2;
   }
 
   .markdown-body ul li {
@@ -31,7 +45,11 @@
   }
 
   .markdown-body blockquote {
-    @apply border-l-4 border-zinc-200 pl-4 italic;
+    @apply border-l-4 border-zinc-300 bg-zinc-50 pl-4 italic;
+  }
+
+  .markdown-body blockquote p {
+    @apply text-zinc-700;
   }
 
   .markdown-body code {
@@ -42,14 +60,14 @@
     @apply mb-6 overflow-x-auto rounded bg-zinc-100 px-4 py-2 text-zinc-800;
   }
   .markdown-body pre code {
-    @apply bg-transparent;
+    @apply bg-transparent px-0;
   }
 
   .markdown-body hr {
-    @apply my-4;
+    @apply my-4 border-zinc-100;
   }
 
-  .markdown-body image {
-    @apply h-auto max-w-sm;
+  .markdown-body img {
+    @apply h-auto w-full px-4 pb-4;
   }
 }
