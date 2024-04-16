@@ -32,7 +32,7 @@ export function getAllPostInfo({
   const fullPath = path.join(postsDirectory, suffixDir);
   const fileNames = fs.readdirSync(fullPath);
 
-  return fileNames.map((fileName) => {
+  const allPosts = fileNames.map((fileName) => {
     const filePath = path.join(fullPath, fileName);
     const fileContents = fs.readFileSync(filePath, "utf8");
     const matterResult = matter(fileContents);
@@ -40,6 +40,10 @@ export function getAllPostInfo({
       id: fileName.replace(/\.md$/, ""),
       ...(matterResult.data as Exclude<PostData, "contentHtml">),
     };
+  });
+
+  return allPosts.sort((a, b) => {
+    return new Date(b.time).getTime() - new Date(a.time).getTime();
   });
 }
 
