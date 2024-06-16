@@ -21,6 +21,7 @@ export interface PostData {
 export type AllPostInfo = Array<
   Exclude<PostData, "contentHtml"> & {
     id: string;
+    prefix: string;
   }
 >;
 
@@ -38,6 +39,7 @@ export function getAllPostInfo({
     const matterResult = matter(fileContents);
     return {
       id: fileName.replace(/\.md$/, ""),
+      prefix: suffixDir,
       ...(matterResult.data as Exclude<PostData, "contentHtml">),
     };
   });

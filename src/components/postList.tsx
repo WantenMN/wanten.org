@@ -13,7 +13,7 @@ const PostList = ({ allPostInfo }: { allPostInfo: AllPostInfo }) => {
         <li key={post.id}>
           <Link
             className="flex-1 text-lg font-medium text-zinc-800 hover:text-black hover:underline"
-            href={`works/${post.id}`}
+            href={`${post.prefix}/${post.id}`}
           >
             {post.title}
           </Link>
