@@ -3,7 +3,7 @@ import { Metadata } from "next";
 import { baseTitle } from "@/config/constants";
 
 export const metadata: Metadata = {
-  title: `Thoughts | ${baseTitle}`,
+  title: `Thoughts - ${baseTitle}`,
 };
 
 const Thoughts = () => {

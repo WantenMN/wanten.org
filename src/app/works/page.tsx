@@ -6,7 +6,7 @@ import { baseTitle } from "@/config/constants";
 import { getAllPostInfo } from "../../lib/posts";
 
 export const metadata: Metadata = {
-  title: `Works | ${baseTitle}`,
+  title: `Works - ${baseTitle}`,
 };
 
 const Works = () => {
