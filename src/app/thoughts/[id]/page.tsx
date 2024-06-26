@@ -30,7 +30,7 @@ export async function generateMetadata({
     id: params.id,
   });
   return {
-    title: `${postData.title} | ${baseTitle}`,
+    title: `${postData.title} - ${baseTitle}`,
     description: postData.desc,
   };
 }
