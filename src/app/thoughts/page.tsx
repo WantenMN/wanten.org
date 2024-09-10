@@ -8,9 +8,9 @@ export const metadata: Metadata = {
   title: `Thoughts - ${baseTitle}`,
 };
 
-const Thoughts = () => {
+const Page = () => {
   const allPostInfo = getAllPostInfo({ suffixDir: "thoughts" });
   return <PostList allPostInfo={allPostInfo} />;
 };
 
-export default Thoughts;
+export default Page;
