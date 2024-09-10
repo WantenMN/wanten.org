@@ -15,6 +15,10 @@ const Navigation = () => {
       path: "/",
     },
     {
+      title: "Notes",
+      path: "/notes",
+    },
+    {
       title: "Works",
       path: "/works",
     },
