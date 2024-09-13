@@ -15,16 +15,16 @@ const Navigation = () => {
       path: "/",
     },
     {
-      title: "Notes",
-      path: "/notes",
+      title: "Thoughts",
+      path: "/thoughts",
     },
     {
       title: "Works",
       path: "/works",
     },
     {
-      title: "Thoughts",
-      path: "/thoughts",
+      title: "Notes",
+      path: "/notes",
     },
   ];
 
