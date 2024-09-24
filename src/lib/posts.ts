@@ -28,21 +28,35 @@ export type AllPostInfo = Array<
 export function getAllPostInfo({
   suffixDir = "",
 }: {
-  suffixDir: string;
-}): AllPostInfo {
-  const fullPath = path.join(postsDirectory, suffixDir);
-  const fileNames = fs.readdirSync(fullPath);
+  suffixDir?: string;
+} = {}): AllPostInfo {
+  const fullPath = suffixDir
+    ? path.join(postsDirectory, suffixDir)
+    : postsDirectory;
+  const allPosts: AllPostInfo = [];
 
-  const allPosts = fileNames.map((fileName) => {
-    const filePath = path.join(fullPath, fileName);
-    const fileContents = fs.readFileSync(filePath, "utf8");
-    const matterResult = matter(fileContents);
-    return {
-      id: fileName.replace(/\.md$/, ""),
-      prefix: suffixDir,
-      ...(matterResult.data as Exclude<PostData, "contentHtml">),
-    };
-  });
+  const getPostsFromDir = (directory: string, prefix: string) => {
+    const items = fs.readdirSync(directory);
+
+    items.forEach((item) => {
+      const itemPath = path.join(directory, item);
+      const stats = fs.statSync(itemPath);
+
+      if (stats.isDirectory()) {
+        getPostsFromDir(itemPath, item); // 递归处理子文件夹
+      } else if (item.endsWith(".md")) {
+        const fileContents = fs.readFileSync(itemPath, "utf8");
+        const matterResult = matter(fileContents);
+        allPosts.push({
+          id: item.replace(/\.md$/, ""),
+          prefix,
+          ...(matterResult.data as Exclude<PostData, "contentHtml">),
+        });
+      }
+    });
+  };
+
+  getPostsFromDir(fullPath, suffixDir);
 
   return allPosts.sort((a, b) => {
     return new Date(b.time).getTime() - new Date(a.time).getTime();
