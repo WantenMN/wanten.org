@@ -9,6 +9,11 @@ tags:
   - 方法
 ---
 
+## 视频演示
+
+- [B 站](https://www.bilibili.com/video/BV1WZsaeDEbJ)
+- [YouTube](https://youtu.be/tPcD64s1BPU)
+
 ## 前置
 
 1. 准备一段 Livid 看到后会破防、红温，忍不住要删帖封号的文字
