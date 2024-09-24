@@ -1,8 +1,8 @@
 import { Metadata } from "next";
 
+import PostList from "@/components/postList";
 import { baseTitle } from "@/config/constants";
 import { getAllPostInfo } from "@/lib/posts";
-import PostList from "@/components/postList";
 
 export const metadata: Metadata = {
   title: `Thoughts - ${baseTitle}`,
