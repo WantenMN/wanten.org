@@ -3,31 +3,24 @@ import { Metadata } from "next";
 import Post from "@/components/post";
 import { baseTitle } from "@/config/constants";
 import { getPostData, PostData } from "@/lib/posts";
+import { PostProps } from "@/types/post";
 
-interface Props {
-  params: {
-    id: string;
-  };
-}
-
-const Page = async ({ params }: Props) => {
+const Page = async ({ params }: PostProps) => {
+  const { id } = await params;
   const postData: PostData = await getPostData({
     prefixDir: "notes",
-    id: params.id,
+    id,
   });
   return <Post postData={postData} />;
 };
 
 export async function generateMetadata({
   params,
-}: {
-  params: {
-    id: string;
-  };
-}): Promise<Metadata> {
+}: PostProps): Promise<Metadata> {
+  const { id } = await params;
   const postData: PostData = await getPostData({
     prefixDir: "notes",
-    id: params.id,
+    id,
   });
   return {
     title: `${postData.title} - ${baseTitle}`,
