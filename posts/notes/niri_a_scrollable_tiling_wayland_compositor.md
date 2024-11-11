@@ -1,6 +1,6 @@
 ---
 title: niri：可滚动平铺窗口管理器
-desc: niri 是一个基于 Wayland 的**可滚动**平铺窗口管理器
+desc: niri 是一个基于 Wayland 的可滚动平铺窗口管理器
 cat: notes
 time: 2024-09-16 08:31
 tags:
