@@ -8,7 +8,7 @@ import { Separator } from "./ui/separator";
 const Container = ({ children }: { children: ReactNode }) => {
   return (
     <div className="flex justify-center">
-      <div className="mt-8 w-full max-w-2xl">
+      <div className="w-full max-w-2xl sm:mt-8">
         <Card className="p-4">
           <Navigation />
           <Separator />
