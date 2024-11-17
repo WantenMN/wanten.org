@@ -29,7 +29,7 @@ const Navigation = () => {
   ];
 
   return (
-    <nav className="flex w-full select-none items-center justify-end">
+    <nav className="mb-4 flex w-full select-none items-center justify-end">
       <ul className="flex leading-none text-zinc-400">
         {pages.map((page, index) => (
           <li key={index} className="flex">

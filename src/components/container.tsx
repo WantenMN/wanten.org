@@ -2,15 +2,18 @@ import { ReactNode } from "react";
 
 import Footer from "./footer";
 import Navigation from "./navigation";
+import { Card } from "./ui/card";
 import { Separator } from "./ui/separator";
 
 const Container = ({ children }: { children: ReactNode }) => {
   return (
-    <div className="flex w-full justify-center">
-      <div className="flex w-full max-w-xl flex-col rounded p-4">
-        <Navigation />
-        <Separator />
-        <main className="min-h-screen flex-1">{children}</main>
+    <div className="flex justify-center">
+      <div className="mt-8 w-full max-w-2xl">
+        <Card className="p-4">
+          <Navigation />
+          <Separator />
+          <main>{children}</main>
+        </Card>
         <Footer />
       </div>
     </div>

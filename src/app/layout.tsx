@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import "./globals.css";
+import "@/styles/globals.css";
 import "@/styles/post.css";
 
 import { Inter, Noto_Sans_SC } from "next/font/google";

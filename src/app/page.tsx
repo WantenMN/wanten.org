@@ -1,4 +1,3 @@
-import { Separator } from "@/components/ui/separator";
 import { getPostData } from "@/lib/posts";
 
 const Me = async () => {
@@ -9,7 +8,6 @@ const Me = async () => {
         className="markdown-body"
         dangerouslySetInnerHTML={{ __html: postData.contentHtml }}
       />
-      <Separator />
     </>
   );
 };
