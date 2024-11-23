@@ -41,7 +41,7 @@
     @apply border-border;
   }
   body {
-    @apply bg-white bg-zinc-100 font-my-font text-foreground;
+    @apply bg-zinc-100 font-my-font text-foreground;
   }
   ::selection {
     background-color: hsla(339, 100%, 50%, 0.16);
