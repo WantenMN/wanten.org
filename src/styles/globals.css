@@ -1,3 +1,10 @@
+@import url("https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-web/style.css");
+
+body {
+  font-family: "LXGW WenKai Screen";
+  font-weight: normal;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
