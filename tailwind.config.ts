@@ -10,15 +10,6 @@ const config = {
   ],
   prefix: "",
   theme: {
-    fontFamily: {
-      "my-font": [
-        "var(--font-inter)",
-        "var(--font-noto-sans-sc)",
-        "Courier New",
-        "Courier",
-        "monospace",
-      ],
-    },
     container: {
       center: true,
       padding: "2rem",
