@@ -17,7 +17,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
+      <body style={{ fontFamily: '"LXGW WenKai Screen", sans-serif' }}>
         <Container>{children}</Container>
       </body>
     </html>
