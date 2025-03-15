@@ -17,6 +17,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <style>{`
+          @import url('https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-web/style.css');
+          body {
+            font-family: "LXGW WenKai Screen", sans-serif;
+            font-display: swap;
+          }
+        `}</style>
+      </head>
       <body style={{ fontFamily: '"LXGW WenKai Screen", sans-serif' }}>
         <Container>{children}</Container>
       </body>
