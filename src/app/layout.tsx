@@ -4,6 +4,8 @@ import "@/styles/post.css";
 
 import Container from "@/components/container";
 import { baseDesc, baseTitle } from "@/config/constants";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export const metadata: Metadata = {
   title: baseTitle,
@@ -28,6 +30,8 @@ export default function RootLayout({
       </head>
       <body style={{ fontFamily: '"LXGW WenKai Screen", sans-serif' }}>
         <Container>{children}</Container>
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
