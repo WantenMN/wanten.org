@@ -8,6 +8,8 @@ export const metadata: Metadata = {
   title: `Thoughts - ${baseTitle}`,
 };
 
+export const dynamic = "force-static";
+
 const Page = () => {
   const allPostInfo = getAllPostInfo({ suffixDir: "thoughts" });
   return <PostList allPostInfo={allPostInfo} />;

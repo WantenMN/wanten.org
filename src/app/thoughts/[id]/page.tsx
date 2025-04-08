@@ -2,8 +2,15 @@ import { Metadata } from "next";
 
 import Post from "@/components/post";
 import { baseTitle } from "@/config/constants";
-import { getPostData, PostData } from "@/lib/posts";
+import { getAllPostInfo, getPostData, PostData } from "@/lib/posts";
 import { PostProps } from "@/types/post";
+
+export function generateStaticParams() {
+  const posts = getAllPostInfo({ suffixDir: "thoughts" });
+  return posts.map((post) => ({
+    id: post.id,
+  }));
+}
 
 const Page = async ({ params }: PostProps) => {
   const { id } = await params;
