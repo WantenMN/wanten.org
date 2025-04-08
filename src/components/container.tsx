@@ -11,7 +11,7 @@ const Container = ({ children }: { children: ReactNode }) => {
   return (
     <div className="flex justify-center">
       <div className="w-full max-w-2xl sm:mt-8">
-        <Card className="p-4">
+        <Card className="gap-0 p-4">
           <Navigation />
           <Separator />
           <main>{children}</main>

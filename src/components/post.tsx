@@ -14,7 +14,7 @@ const Post = ({ postData }: { postData: PostData }) => {
   return (
     <article className="markdown-body">
       <h1>{postData.title}</h1>
-      <section className="mb-8 mt-4 text-sm">
+      <section className="mt-4 mb-8 text-sm">
         <a
           className="inline-block !text-zinc-400"
           title="Edit History"
