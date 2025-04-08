@@ -31,6 +31,9 @@ tags:
   ```
 
 - 使用`cfdisk` 分区（如果提示`Select label type`，选择 `gpt`）：
+  ```bash
+  cfdisk /dev/nvme0n1
+  ```
   - 创建 512M 的 `/boot` 分区（例如 `/dev/nvme0n1p1`），默认 Size Type。
   - 剩余空间分配给另一个分区（例如 `/dev/nvme0n1p2`），用于加密根分区，默认 Size Type。
 
@@ -145,7 +148,7 @@ tags:
 
 ## 系统配置
 
-- 启动 NetworkManager 和 dhcpcd
+- 启动 `NetworkManager` 和`dhcpcd`：
 
   ```bash
   systemctl enable NetworkManager
@@ -170,7 +173,7 @@ tags:
   echo "archlinux" > /etc/hostname
   ```
 
-- 设置 root 密码：
+- 设置 `root` 密码：
 
   ```bash
   passwd
