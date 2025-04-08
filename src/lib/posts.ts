@@ -2,7 +2,7 @@ import fs from "fs";
 import matter from "gray-matter";
 import path from "path";
 import rehypeExternalLinks from "rehype-external-links";
-import rehypeFormat from "rehype-format";
+import rehypeShiki from "@shikijs/rehype";
 import rehypeStringify from "rehype-stringify";
 import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
@@ -43,7 +43,7 @@ export function getAllPostInfo({
       const stats = fs.statSync(itemPath);
 
       if (stats.isDirectory()) {
-        getPostsFromDir(itemPath, item); // 递归处理子文件夹
+        getPostsFromDir(itemPath, item);
       } else if (item.endsWith(".md")) {
         const fileContents = fs.readFileSync(itemPath, "utf8");
         const matterResult = matter(fileContents);
@@ -76,8 +76,10 @@ export async function getPostData({
   const processedContent = await unified()
     .use(remarkParse)
     .use(remarkRehype)
+    .use(rehypeShiki, {
+      theme: "vitesse-light",
+    })
     .use(rehypeExternalLinks, { target: "_blank" })
-    .use(rehypeFormat)
     .use(rehypeStringify)
     .process(matterResult.content);
   const contentHtml = processedContent.toString();

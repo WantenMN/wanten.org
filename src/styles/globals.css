@@ -43,7 +43,4 @@
   body {
     @apply bg-zinc-100 text-foreground;
   }
-  ::selection {
-    background-color: hsla(339, 100%, 50%, 0.16);
-  }
 }
