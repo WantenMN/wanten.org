@@ -31,11 +31,16 @@ tags:
   ```
 
 - 使用`cfdisk` 分区（如果提示`Select label type`，选择 `gpt`）：
+
   ```bash
   cfdisk /dev/nvme0n1
   ```
+
+  - 删除原有的所有分区
   - 创建 512M 的 `/boot` 分区（例如 `/dev/nvme0n1p1`），默认 Size Type。
   - 剩余空间分配给另一个分区（例如 `/dev/nvme0n1p2`），用于加密根分区，默认 Size Type。
+  - `write`写入，输入`yes`完成分区创建
+  - `lsblk`复查是否创建正确
 
 ## 加密根分区
 
@@ -111,7 +116,10 @@ tags:
 
   ```bash
   vim /etc/pacman.d/mirrorlist
+
   ```
+
+- 将其他镜像源全部删除，添加下面两个：
 
   ```txt
   Server = https://mirrors.ustc.edu.cn/archlinux/$repo/os/$arch
@@ -129,7 +137,7 @@ tags:
 - 安装基本系统和工具：
 
   ```bash
-  pacstrap /mnt base linux linux-firmware vim base-devel networkmanager lvm2 cryptsetup grub efibootmgr dhcpcd iwctl sudo intel-ucode
+  pacstrap /mnt base linux linux-firmware vim base-devel networkmanager lvm2 cryptsetup grub efibootmgr dhcpcd iwd sudo intel-ucode
   ```
 
 - 生成 `fstab` 文件：
@@ -148,10 +156,11 @@ tags:
 
 ## 系统配置
 
-- 启动 `NetworkManager` 和`dhcpcd`：
+- 启动 `NetworkManager` 、 `iwd` 和 `dhcpcd` 服务：
 
   ```bash
   systemctl enable NetworkManager
+  systemctl enable iwd
   systemctl enable dhcpcd
   ```
 
@@ -165,6 +174,12 @@ tags:
 
   ```bash
   hwclock --systohc
+  ```
+
+- 查看时间
+
+  ```bash
+  date
   ```
 
 - 设置主机名（例如 `archlinux`）：
@@ -182,9 +197,8 @@ tags:
 - 创建普通用户（例如 `user`）并启用 `sudo`：
 
   ```bash
-  useradd -m -G wheel -s /bin/bash user
-  passwd user
-  pacman -S sudo
+  useradd -m -G wheel -s /bin/bash 用户名
+  passwd 用户名
   visudo  # 取消注释 %wheel ALL=(ALL) ALL
   ```
 
@@ -210,7 +224,7 @@ tags:
 
 - 编辑 `/etc/default/grub`，添加加密分区参数（使用 `cryptroot` 的 UUID）：
 
-  - 查看 UUID：
+  - 输出 UUID 到 grub 文件：
 
     ```bash
     # cryptdevice
@@ -219,6 +233,8 @@ tags:
     # root
     blkid -o value -s UUID /dev/mapper/cryptroot >> /etc/default/grub
     ```
+
+  - 编辑 grub 文件
 
     ```bash
     vim /etc/default/grub
@@ -234,6 +250,7 @@ tags:
 
   ```bash
   grub-install --efi-directory=/boot --bootloader-id=ArchLinux /dev/nvme0n1p1
+  # --bootloader-id 在开机时 boot options 中显示，可自定义
   ```
 
 - 生成 GRUB 配置文件：
@@ -257,8 +274,15 @@ tags:
 
 - 拔掉 U 盘，启动新系统，输入加密密码，登录。
 
+- 使用 `iwctl` 重新联网，`ping baidu.com` 测试网络连通
+
 ## 安装 niri
 
 ```bash
 sudo pacman -S niri alacritty fuzzel xdg-desktop-portal-gtk
+
+# 启动
+niri
 ```
+
+`Super + Shift + /`查看 niri 快捷键
