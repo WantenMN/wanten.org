@@ -3,13 +3,13 @@ import "@/styles/globals.css";
 import "@/styles/post.css";
 
 import Container from "@/components/container";
-import { baseDesc, baseTitle } from "@/config/constants";
+import { BASE_DESC, BASE_TITILE } from "@/config/constants";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export const metadata: Metadata = {
-  title: baseTitle,
-  description: baseDesc,
+  title: BASE_TITILE,
+  description: BASE_DESC,
 };
 
 export default function RootLayout({

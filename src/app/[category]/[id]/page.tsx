@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 
 import Post from "@/components/post";
-import { baseTitle, CATEGORIES } from "@/config/constants";
+import { BASE_TITILE, CATEGORIES } from "@/config/constants";
 import { getAllPostInfo, getPostData, PostData } from "@/lib/posts";
 
 export function generateStaticParams() {
@@ -37,7 +37,7 @@ export async function generateMetadata({
     id,
   });
   return {
-    title: `${postData.title} - ${baseTitle}`,
+    title: `${postData.title} - ${BASE_TITILE}`,
     description: postData.desc,
   };
 }

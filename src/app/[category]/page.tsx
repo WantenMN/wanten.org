@@ -1,5 +1,5 @@
 import PostList from "@/components/postList";
-import { baseTitle, CATEGORIES } from "@/config/constants";
+import { BASE_TITILE, CATEGORIES } from "@/config/constants";
 import { getAllPostInfo } from "@/lib/posts";
 import { capitalizeFirstAlpha } from "@/lib/utils";
 import { Metadata } from "next";
@@ -23,7 +23,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { category } = await params;
   return {
-    title: `${capitalizeFirstAlpha(category)} - ${baseTitle}`,
+    title: `${capitalizeFirstAlpha(category)} - ${BASE_TITILE}`,
   };
 }
 
