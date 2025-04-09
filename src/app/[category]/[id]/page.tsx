@@ -1,21 +1,23 @@
 import { Metadata } from "next";
 
 import Post from "@/components/post";
-import { baseTitle } from "@/config/constants";
+import { baseTitle, CATEGORIES } from "@/config/constants";
 import { getAllPostInfo, getPostData, PostData } from "@/lib/posts";
-import { PostProps } from "@/types/post";
+import { PostProps } from "@/types";
 
 export function generateStaticParams() {
-  const posts = getAllPostInfo({ suffixDir: "notes" });
-  return posts.map((post) => ({
-    id: post.id,
-  }));
+  return CATEGORIES.flatMap((category) =>
+    getAllPostInfo({ suffixDir: category }).map((post) => ({
+      category,
+      id: post.id,
+    }))
+  );
 }
 
 const Page = async ({ params }: PostProps) => {
-  const { id } = await params;
+  const { category, id } = await params;
   const postData: PostData = await getPostData({
-    prefixDir: "notes",
+    prefixDir: category,
     id,
   });
   return <Post postData={postData} />;
@@ -24,9 +26,9 @@ const Page = async ({ params }: PostProps) => {
 export async function generateMetadata({
   params,
 }: PostProps): Promise<Metadata> {
-  const { id } = await params;
+  const { category, id } = await params;
   const postData: PostData = await getPostData({
-    prefixDir: "notes",
+    prefixDir: category,
     id,
   });
   return {
