@@ -3,7 +3,6 @@ import { Metadata } from "next";
 import Post from "@/components/post";
 import { baseTitle, CATEGORIES } from "@/config/constants";
 import { getAllPostInfo, getPostData, PostData } from "@/lib/posts";
-import { PostProps } from "@/types";
 
 export function generateStaticParams() {
   return CATEGORIES.flatMap((category) =>
@@ -14,7 +13,11 @@ export function generateStaticParams() {
   );
 }
 
-const Page = async ({ params }: PostProps) => {
+const Page = async ({
+  params,
+}: {
+  params: Promise<{ category: string; id: string }>;
+}) => {
   const { category, id } = await params;
   const postData: PostData = await getPostData({
     prefixDir: category,
@@ -25,7 +28,9 @@ const Page = async ({ params }: PostProps) => {
 
 export async function generateMetadata({
   params,
-}: PostProps): Promise<Metadata> {
+}: {
+  params: Promise<{ category: string; id: string }>;
+}): Promise<Metadata> {
   const { category, id } = await params;
   const postData: PostData = await getPostData({
     prefixDir: category,

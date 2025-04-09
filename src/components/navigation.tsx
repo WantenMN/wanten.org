@@ -3,9 +3,10 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-import { cn } from "@/lib/utils";
+import { capitalizeFirstAlpha, cn } from "@/lib/utils";
 
 import { Separator } from "./ui/separator";
+import { CATEGORIES } from "@/config/constants";
 
 const Navigation = () => {
   const pathname = usePathname();
@@ -14,18 +15,10 @@ const Navigation = () => {
       title: "Me",
       path: "/",
     },
-    {
-      title: "Thoughts",
-      path: "/thoughts",
-    },
-    {
-      title: "Works",
-      path: "/works",
-    },
-    {
-      title: "Notes",
-      path: "/notes",
-    },
+    ...CATEGORIES.map((category) => ({
+      title: capitalizeFirstAlpha(category),
+      path: `/${category}`,
+    })),
   ];
 
   return (
