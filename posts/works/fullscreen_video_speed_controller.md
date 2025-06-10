@@ -1,6 +1,6 @@
 ---
 title: Fullscreen Video Speed Controller
-desc: Control playback speed, fix A/V sync issues, and seek for fullscreen videos
+desc: Control playback speed, and seek for fullscreen videos
 cat: works
 time: 2025-05-17 06:34
 tags:
@@ -12,7 +12,7 @@ tags:
 
 ## Overview
 
-**[Fullscreen Video Speed Controller](https://greasyfork.org/en/scripts/536243)** is a lightweight and intuitive userscript that enhances your video playback experience. It provides seamless control over playback speed, audio-video synchronization, and quick seeking for fullscreen videos across the web.
+**[Fullscreen Video Speed Controller](https://greasyfork.org/en/scripts/536243)** is a lightweight and intuitive userscript that enhances your video playback experience. It provides seamless control over playback speed, and quick seeking for fullscreen videos across the web.
 
 ## How to Use
 
@@ -24,7 +24,6 @@ tags:
    - `l` – Speed up to 3.0x.
    - `h` – Rewind 5 seconds.
    - `;` – Fast-forward 5 seconds.
-   - `i` – Fix A/V sync issues (micro seek).
 
 ## Notes
 
