@@ -1,17 +1,17 @@
 @import "tailwindcss";
 
 .markdown-body h1 {
-  @apply text-2xl font-medium;
+  @apply text-[1.5rem] font-medium;
 }
 
 .markdown-body h2 {
-  @apply mt-10 mb-4 text-xl font-medium;
+  @apply my-8 text-[1.45rem] font-medium;
 }
 .markdown-body h3 {
-  @apply mb-4 text-[1.2rem] font-medium;
+  @apply my-8 text-[1.3rem] font-medium;
 }
 .markdown-body h4 {
-  @apply mb-4 text-[1.1rem] font-medium;
+  @apply  my-8 text-[1.1rem] font-medium;
 }
 
 .markdown-body p {
@@ -31,12 +31,32 @@
   @apply mb-2;
 }
 
+.markdown-body ul {
+  @apply mb-6;
+}
+
+.markdown-body ul li p {
+  @apply mb-0;
+}
+
 .markdown-body ul li {
   @apply list-disc;
 }
 
+.markdown-body ol {
+  @apply mb-6;
+}
+
 .markdown-body ol li {
   @apply list-decimal;
+}
+
+.markdown-body ol li p {
+  @apply mb-0;
+}
+
+.markdown-body li ol, li ul {
+  @apply mt-4;
 }
 
 .markdown-body a {
