@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+h1 {
+  @apply mb-4;
+}
+
 .markdown-body h1 {
   @apply text-[1.5rem] font-medium;
 }

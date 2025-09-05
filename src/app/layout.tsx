@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import "@/styles/globals.css";
 import "@/styles/post.css";
 
-import Container from "@/components/container";
 import { BASE_DESC, BASE_TITILE } from "@/config/constants";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
@@ -29,7 +28,7 @@ export default function RootLayout({
         `}</style>
       </head>
       <body style={{ fontFamily: '"LXGW WenKai Screen", sans-serif' }}>
-        <Container>{children}</Container>
+        {children}
         <Analytics />
         <SpeedInsights />
       </body>
