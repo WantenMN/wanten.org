@@ -5,8 +5,8 @@ cat: notes
 time: 2024-09-23 16:06
 tags:
   - V2EX
-  - 注销
-  - 方法
+  - Method
+  - Deactivate
 ---
 
 ## 视频演示

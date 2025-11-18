@@ -4,9 +4,9 @@ desc: 我如何加密和备份私密文字
 cat: notes
 time: 2025-07-11 09:55
 tags:
-  - note
-  - encrypt
-  - backup
+  - Note
+  - Encrypt
+  - Backup
 ---
 
 我的笔记使用 [git](https://git-scm.com/) 进行版本控制，备份时使用 `git bundle` 打包，加密使用 [age](https://github.com/FiloSottile/age)。

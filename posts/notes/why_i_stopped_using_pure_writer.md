@@ -4,7 +4,8 @@ desc: 告别纯纯写作的理由
 cat: notes
 time: 2023-10-26 15:13
 tags:
-  - 纯纯写作
+  - Pure_Writer
+  - Stop_Doing
 ---
 
 ## 多窗口支持

@@ -3,6 +3,7 @@ title: Random Chinese Characters Generator
 desc: A simple npm package to generate random Chinese characters based on various criteria.
 cat: tools
 time: 2024-04-03 10:53
+tags:
 ---
 
 A simple npm package to generate random Chinese characters based on various criteria.

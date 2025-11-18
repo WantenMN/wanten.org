@@ -4,21 +4,22 @@ desc: Control playback speed, and seek for fullscreen videos
 cat: works
 time: 2025-05-17 06:34
 tags:
-  - user-script
-  - fullscreen
-  - video
-  - video-speed-controller
+  - Userscript
+  - Fullscreen
+  - Video
+  - Speed_Controller
 ---
 
 ## Overview
 
 **[Fullscreen Video Speed Controller](https://greasyfork.org/en/scripts/536243)** is a lightweight and intuitive userscript that enhances your video playback experience. It provides seamless control over playback speed, and quick seeking for fullscreen videos across the web.
 
+#
+
 ## How to Use
 
 1. Open a video in fullscreen mode on any website.
 2. Use the following hotkeys to control playback:
-
    - `j` – Reset speed to 1.0x.
    - `k` – Speed up to 2.0x.
    - `l` – Speed up to 3.0x.
