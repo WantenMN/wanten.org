@@ -15,7 +15,7 @@ const Post = ({ postData }: { postData: PostData }) => {
         <a
           className="inline-block text-zinc-400!"
           title="Edit History"
-          href={`http://github.com/WantenMN/wanten.org/commits/main/posts/${postData.id}.md`}
+          href={`http://github.com/WantenMN/wanten.org/commits/main/posts/${postData.filePath}`}
           target="_blank"
         >
           <span>{postData.date}</span>

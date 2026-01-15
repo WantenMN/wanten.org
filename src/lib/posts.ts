@@ -27,6 +27,7 @@ export interface PostInfo extends Frontmatter {
 export interface PostData extends Frontmatter {
   contentHtml: string;
   id: string;
+  filePath: string;
 }
 
 export type AllPostInfo = PostInfo[];
