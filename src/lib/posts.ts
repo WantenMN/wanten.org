@@ -78,11 +78,15 @@ export function getAllPostInfo({
   });
 }
 
-export async function getPostData({ slug }: { slug: string }) {
+export async function getPostData({
+  slug,
+}: {
+  slug: string;
+}): Promise<PostData | null> {
   const allPosts = getAllPostInfo({ includeHidden: true });
   const postInfo = allPosts.find((p) => p.slug === slug);
   if (!postInfo) {
-    throw new Error(`Post with slug ${slug} not found`);
+    return null;
   }
   const fullPath = path.join(postsDirectory, postInfo.filePath);
   const fileContents = fs.readFileSync(fullPath, "utf8");
@@ -112,9 +116,15 @@ export function getPostsByDate(
   const allPosts = getAllPostInfo({ includeHidden: false });
   return allPosts.filter((post) => {
     const postDate = new Date(post.date);
-    if (year && postDate.getFullYear() !== year) {return false;}
-    if (month && postDate.getMonth() + 1 !== month) {return false;}
-    if (day && postDate.getDate() !== day) {return false;}
+    if (year && postDate.getFullYear() !== year) {
+      return false;
+    }
+    if (month && postDate.getMonth() + 1 !== month) {
+      return false;
+    }
+    if (day && postDate.getDate() !== day) {
+      return false;
+    }
     return true;
   });
 }

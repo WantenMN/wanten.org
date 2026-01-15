@@ -1,9 +1,9 @@
 import { Metadata } from "next";
-import { redirect } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 
 import Post from "@/components/post";
-import { BASE_TITILE } from "@/config/constants";
-import { getAllPostInfo, getPostData, PostData } from "@/lib/posts";
+import { BASE_TITLE } from "@/config/constants";
+import { getAllPostInfo, getPostData } from "@/lib/posts";
 
 export function generateStaticParams() {
   return getAllPostInfo({ includeHidden: true }).map((post) => {
@@ -29,9 +29,12 @@ const Page = async ({
     redirect(`/${year}/${paddedMonth}/${paddedDay}/${slug}`);
   }
   const fullSlug = `/${year}/${paddedMonth}/${paddedDay}/${slug}`;
-  const postData: PostData = await getPostData({
+  const postData = await getPostData({
     slug: fullSlug,
   });
+  if (!postData) {
+    notFound();
+  }
   return <Post postData={postData} />;
 };
 
@@ -47,11 +50,14 @@ export async function generateMetadata({
     redirect(`/${year}/${paddedMonth}/${paddedDay}/${slug}`);
   }
   const fullSlug = `/${year}/${paddedMonth}/${paddedDay}/${slug}`;
-  const postData: PostData = await getPostData({
+  const postData = await getPostData({
     slug: fullSlug,
   });
+  if (!postData) {
+    notFound();
+  }
   return {
-    title: `${postData.title} - ${BASE_TITILE}`,
+    title: `${postData.title} - ${BASE_TITLE}`,
     description: postData.desc,
   };
 }
