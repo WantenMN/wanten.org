@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Rss } from "lucide-react";
+import { Rss, UserRound, Tags } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
@@ -13,17 +13,19 @@ const Navigation = () => {
   const pathname = usePathname();
   const pages = [
     {
-      title: "",
-      path: "/api/rss",
-      isIcon: true,
-    },
-    {
       title: "About",
       path: "/about",
+      icon: "UserRound",
     },
     {
       title: "Tags",
       path: "/tags",
+      icon: "Tags",
+    },
+    {
+      title: "",
+      path: "/api/rss",
+      icon: "Rss",
     },
   ];
 
@@ -41,9 +43,11 @@ const Navigation = () => {
               className={cn("flex items-center hover:text-zinc-800", {
                 "text-zinc-800 underline": pathname === page.path,
               })}
-              title={page.isIcon ? "RSS Feed" : undefined}
+              title={page.icon === "Rss" ? "RSS Feed" : page.title}
             >
-              {page.isIcon ? <Rss size={16} /> : page.title}
+              {page.icon === "UserRound" && <UserRound size={16} />}
+              {page.icon === "Tags" && <Tags size={16} />}
+              {page.icon === "Rss" && <Rss size={16} />}
             </Link>
             {index !== pages.length - 1 ? (
               <Separator orientation="vertical" />
