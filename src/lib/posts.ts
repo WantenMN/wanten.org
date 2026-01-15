@@ -22,12 +22,14 @@ export interface Frontmatter {
 export interface PostInfo extends Frontmatter {
   id: string;
   filePath: string;
+  slug: string;
 }
 
 export interface PostData extends Frontmatter {
   contentHtml: string;
   id: string;
   filePath: string;
+  slug: string;
 }
 
 export type AllPostInfo = PostInfo[];
@@ -53,10 +55,16 @@ export function getAllPostInfo({
         const matterResult = matter(fileContents);
         const data = matterResult.data as Frontmatter;
         if (data.path && (includeHidden || !data.hidden)) {
+          const date = new Date(data.date);
+          const year = date.getFullYear();
+          const month = String(date.getMonth() + 1).padStart(2, "0");
+          const day = String(date.getDate()).padStart(2, "0");
+          const slug = `/${year}/${month}/${day}/${data.path}`;
           allPosts.push({
             ...data,
             id: item.replace(/\.md$/, ""),
             filePath: path.relative(postsDirectory, itemPath),
+            slug,
           });
         }
       }
@@ -70,11 +78,11 @@ export function getAllPostInfo({
   });
 }
 
-export async function getPostData({ path: postPath }: { path: string }) {
+export async function getPostData({ slug }: { slug: string }) {
   const allPosts = getAllPostInfo({ includeHidden: true });
-  const postInfo = allPosts.find((p) => p.path === postPath);
+  const postInfo = allPosts.find((p) => p.slug === slug);
   if (!postInfo) {
-    throw new Error(`Post with path ${postPath} not found`);
+    throw new Error(`Post with slug ${slug} not found`);
   }
   const fullPath = path.join(postsDirectory, postInfo.filePath);
   const fileContents = fs.readFileSync(fullPath, "utf8");
@@ -94,4 +102,39 @@ export async function getPostData({ path: postPath }: { path: string }) {
     ...postInfo,
     contentHtml,
   };
+}
+
+export function getPostsByDate(
+  year?: number,
+  month?: number,
+  day?: number
+): AllPostInfo {
+  const allPosts = getAllPostInfo({ includeHidden: false });
+  return allPosts.filter((post) => {
+    const postDate = new Date(post.date);
+    if (year && postDate.getFullYear() !== year) {return false;}
+    if (month && postDate.getMonth() + 1 !== month) {return false;}
+    if (day && postDate.getDate() !== day) {return false;}
+    return true;
+  });
+}
+
+export function getPostsByTag(tag: string): AllPostInfo {
+  const allPosts = getAllPostInfo({ includeHidden: false });
+  return allPosts.filter((post) => post.tags && post.tags.includes(tag));
+}
+
+export function getAllTags(): { tag: string; count: number }[] {
+  const allPosts = getAllPostInfo({ includeHidden: false });
+  const tagCounts: Record<string, number> = {};
+  allPosts.forEach((post) => {
+    if (post.tags) {
+      post.tags.forEach((tag) => {
+        tagCounts[tag] = (tagCounts[tag] || 0) + 1;
+      });
+    }
+  });
+  return Object.entries(tagCounts)
+    .map(([tag, count]) => ({ tag, count }))
+    .sort((a, b) => b.count - a.count);
 }
