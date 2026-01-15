@@ -16,7 +16,7 @@ const Post = ({ postData }: { postData: PostData }) => {
       <h1>{postData.title}</h1>
       <section className="mt-4 mb-8 text-sm">
         <a
-          className="inline-block !text-zinc-400"
+          className="inline-block text-zinc-400!"
           title="Edit History"
           href={`http://github.com/WantenMN/wanten.org/commits/main/posts${pathname}.md`}
           target="_blank"

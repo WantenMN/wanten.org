@@ -11,7 +11,7 @@
   @apply my-8 text-[1.3rem] font-medium;
 }
 .markdown-body h4 {
-  @apply  my-8 text-[1.1rem] font-medium;
+  @apply my-8 text-[1.1rem] font-medium;
 }
 
 .markdown-body p {
@@ -55,7 +55,8 @@
   @apply mb-0;
 }
 
-.markdown-body li ol, li ul {
+.markdown-body li ol,
+li ul {
   @apply mt-4;
 }
 
@@ -76,7 +77,7 @@
 }
 
 .markdown-body pre {
-  @apply mb-6 overflow-x-auto rounded !bg-zinc-50 px-4 py-2 text-zinc-800;
+  @apply mb-6 overflow-x-auto rounded bg-zinc-50! px-4 py-2 text-zinc-800;
 }
 .markdown-body pre code {
   @apply bg-transparent px-0;
