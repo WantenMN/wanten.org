@@ -1,6 +1,6 @@
 import PostList from "@/components/postList";
 import { getPostsByDate } from "@/lib/posts";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 
 export function generateStaticParams() {
   const allPosts = getPostsByDate();
@@ -24,15 +24,20 @@ const Page = async ({
   params: Promise<{ year: string; month: string }>;
 }) => {
   const { year, month } = await params;
+  const paddedMonth = month.padStart(2, "0");
+  if (month !== paddedMonth) {
+    redirect(`/${year}/${paddedMonth}`);
+  }
   const yearNum = parseInt(year);
-  const monthNum = parseInt(month);
-  if (isNaN(yearNum) || isNaN(monthNum)) {notFound();}
+  const monthNum = parseInt(paddedMonth);
+  if (isNaN(yearNum) || isNaN(monthNum)) {
+    notFound();
+  }
   const posts = getPostsByDate(yearNum, monthNum);
-  if (posts.length === 0) {notFound();}
   return (
     <div>
       <h1 className="mb-4 text-2xl font-bold">
-        {year} 年 {month} 月
+        {year} 年 {paddedMonth} 月
       </h1>
       <PostList allPostInfo={posts} />
     </div>

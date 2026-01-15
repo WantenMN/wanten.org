@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import { redirect } from "next/navigation";
 
 import Post from "@/components/post";
 import { BASE_TITILE } from "@/config/constants";
@@ -22,7 +23,12 @@ const Page = async ({
   params: Promise<{ year: string; month: string; day: string; slug: string }>;
 }) => {
   const { year, month, day, slug } = await params;
-  const fullSlug = `/${year}/${month}/${day}/${slug}`;
+  const paddedMonth = month.padStart(2, "0");
+  const paddedDay = day.padStart(2, "0");
+  if (month !== paddedMonth || day !== paddedDay) {
+    redirect(`/${year}/${paddedMonth}/${paddedDay}/${slug}`);
+  }
+  const fullSlug = `/${year}/${paddedMonth}/${paddedDay}/${slug}`;
   const postData: PostData = await getPostData({
     slug: fullSlug,
   });
@@ -35,7 +41,12 @@ export async function generateMetadata({
   params: Promise<{ year: string; month: string; day: string; slug: string }>;
 }): Promise<Metadata> {
   const { year, month, day, slug } = await params;
-  const fullSlug = `/${year}/${month}/${day}/${slug}`;
+  const paddedMonth = month.padStart(2, "0");
+  const paddedDay = day.padStart(2, "0");
+  if (month !== paddedMonth || day !== paddedDay) {
+    redirect(`/${year}/${paddedMonth}/${paddedDay}/${slug}`);
+  }
+  const fullSlug = `/${year}/${paddedMonth}/${paddedDay}/${slug}`;
   const postData: PostData = await getPostData({
     slug: fullSlug,
   });

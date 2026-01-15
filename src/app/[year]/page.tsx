@@ -13,9 +13,10 @@ export function generateStaticParams() {
 const Page = async ({ params }: { params: Promise<{ year: string }> }) => {
   const { year } = await params;
   const yearNum = parseInt(year);
-  if (isNaN(yearNum)) {notFound();}
+  if (isNaN(yearNum)) {
+    notFound();
+  }
   const posts = getPostsByDate(yearNum);
-  if (posts.length === 0) {notFound();}
   return (
     <div>
       <h1 className="mb-4 text-2xl font-bold">{year} 年</h1>
