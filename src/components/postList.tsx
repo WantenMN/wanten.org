@@ -19,7 +19,38 @@ const PostList = ({ allPostInfo }: { allPostInfo: AllPostInfo }) => {
             {post.title}
           </Link>
           <p className="my-2 text-zinc-500">{post.desc}</p>
-          <span className="block text-sm text-zinc-400">{post.date}</span>
+          <span className="block text-sm text-zinc-400">
+            {(() => {
+              const [datePart, timePart] = post.date.split(" ");
+              const dateParts = datePart.split("-");
+              const [year, month, day] = dateParts;
+              return (
+                <>
+                  <Link
+                    href={`/${year}`}
+                    className="text-sm text-zinc-400 hover:text-zinc-600 hover:underline"
+                  >
+                    {year}
+                  </Link>
+                  -
+                  <Link
+                    href={`/${year}/${month}`}
+                    className="text-sm text-zinc-400 hover:text-zinc-600 hover:underline"
+                  >
+                    {month}
+                  </Link>
+                  -
+                  <Link
+                    href={`/${year}/${month}/${day}`}
+                    className="text-sm text-zinc-400 hover:text-zinc-600 hover:underline"
+                  >
+                    {day}
+                  </Link>
+                  {timePart && ` ${timePart}`}
+                </>
+              );
+            })()}
+          </span>
           <Tags tags={post.tags} />
 
           {index !== allPostInfo.length - 1 && <Separator />}
