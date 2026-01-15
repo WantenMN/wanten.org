@@ -5,6 +5,7 @@ import Link from "next/link";
 import { AllPostInfo } from "@/lib/posts";
 
 import { Separator } from "./ui/separator";
+import Tags from "./tags";
 
 const PostList = ({ allPostInfo }: { allPostInfo: AllPostInfo }) => {
   return (
@@ -19,6 +20,8 @@ const PostList = ({ allPostInfo }: { allPostInfo: AllPostInfo }) => {
           </Link>
           <p className="my-2 text-zinc-500">{post.desc}</p>
           <span className="block text-sm text-zinc-400">{post.date}</span>
+          <Tags tags={post.tags} />
+
           {index !== allPostInfo.length - 1 && <Separator />}
         </li>
       ))}

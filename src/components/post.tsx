@@ -4,6 +4,7 @@ import GiscusComments from "@/hooks/GiscusComments";
 import { PostData } from "@/lib/posts";
 
 import { Separator } from "./ui/separator";
+import Tags from "./tags";
 
 const Post = ({ postData }: { postData: PostData }) => {
   GiscusComments();
@@ -20,6 +21,7 @@ const Post = ({ postData }: { postData: PostData }) => {
         >
           <span>{postData.date}</span>
         </a>
+        <Tags tags={postData.tags} className="mt-2" />
       </section>
       <section
         dangerouslySetInnerHTML={{ __html: postData.contentHtml }}
