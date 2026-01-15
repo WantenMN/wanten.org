@@ -1,5 +1,13 @@
 import Link from "next/link";
 import { getAllTags } from "@/lib/posts";
+import { BASE_TITLE } from "@/config/constants";
+import { Metadata } from "next";
+
+export function generateMetadata(): Metadata {
+  return {
+    title: `Tags - ${BASE_TITLE}`,
+  };
+}
 
 const Page = () => {
   const tags = getAllTags();

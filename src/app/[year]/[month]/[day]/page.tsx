@@ -1,6 +1,21 @@
 import PostList from "@/components/postList";
 import { getPostsByDate } from "@/lib/posts";
 import { notFound, redirect } from "next/navigation";
+import { Separator } from "@/components/ui/separator";
+import { BASE_TITLE } from "@/config/constants";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ year: string; month: string; day: string }>;
+}) {
+  const { year, month, day } = await params;
+  const paddedMonth = month.padStart(2, "0");
+  const paddedDay = day.padStart(2, "0");
+  return {
+    title: `${year} 年 ${paddedMonth} 月 ${paddedDay} 日 - ${BASE_TITLE}`,
+  };
+}
 
 export function generateStaticParams() {
   const allPosts = getPostsByDate();
@@ -41,6 +56,7 @@ const Page = async ({
       <h1 className="mb-4 text-2xl font-bold">
         {year} 年 {paddedMonth} 月 {paddedDay} 日
       </h1>
+      {posts.length > 0 && <Separator />}
       <PostList allPostInfo={posts} />
     </div>
   );
