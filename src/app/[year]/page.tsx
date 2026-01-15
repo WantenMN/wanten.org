@@ -11,7 +11,7 @@ export async function generateMetadata({
 }) {
   const { year } = await params;
   return {
-    title: `${year} 年 - ${BASE_TITLE}`,
+    title: `${year} - ${BASE_TITLE}`,
   };
 }
 
@@ -32,7 +32,7 @@ const Page = async ({ params }: { params: Promise<{ year: string }> }) => {
   const posts = getPostsByDate(yearNum);
   return (
     <div>
-      <h1 className="mb-4 text-2xl font-bold">{year} 年</h1>
+      <h1 className="mb-4 text-2xl font-bold">{year}</h1>
       {posts.length > 0 && <Separator />}
       <PostList allPostInfo={posts} />
     </div>

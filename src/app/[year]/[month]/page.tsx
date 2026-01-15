@@ -12,7 +12,7 @@ export async function generateMetadata({
   const { year, month } = await params;
   const paddedMonth = month.padStart(2, "0");
   return {
-    title: `${year} 年 ${paddedMonth} 月 - ${BASE_TITLE}`,
+    title: `${year} / ${paddedMonth} - ${BASE_TITLE}`,
   };
 }
 
@@ -51,7 +51,7 @@ const Page = async ({
   return (
     <div>
       <h1 className="mb-4 text-2xl font-bold">
-        {year} 年 {paddedMonth} 月
+        {year} / {paddedMonth}
       </h1>
       {posts.length > 0 && <Separator />}
       <PostList allPostInfo={posts} />
