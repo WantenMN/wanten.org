@@ -10,32 +10,35 @@ import { unified } from "unified";
 
 const postsDirectory = path.join(process.cwd(), "posts");
 
-export interface PostData {
-  contentHtml: string;
+export interface Frontmatter {
   title: string;
   desc: string;
-  cat: string;
-  time: string;
+  date: string;
+  tags: string[];
+  path: string;
+  hidden?: boolean;
 }
 
-export type AllPostInfo = Array<
-  Exclude<PostData, "contentHtml"> & {
-    id: string;
-    prefix: string;
-  }
->;
+export interface PostInfo extends Frontmatter {
+  id: string;
+  filePath: string;
+}
+
+export interface PostData extends Frontmatter {
+  contentHtml: string;
+  id: string;
+}
+
+export type AllPostInfo = PostInfo[];
 
 export function getAllPostInfo({
-  suffixDir = "",
+  includeHidden = false,
 }: {
-  suffixDir?: string;
+  includeHidden?: boolean;
 } = {}): AllPostInfo {
-  const fullPath = suffixDir
-    ? path.join(postsDirectory, suffixDir)
-    : postsDirectory;
   const allPosts: AllPostInfo = [];
 
-  const getPostsFromDir = (directory: string, prefix: string) => {
+  const getPostsFromDir = (directory: string) => {
     const items = fs.readdirSync(directory);
 
     items.forEach((item) => {
@@ -43,34 +46,36 @@ export function getAllPostInfo({
       const stats = fs.statSync(itemPath);
 
       if (stats.isDirectory()) {
-        getPostsFromDir(itemPath, item);
+        getPostsFromDir(itemPath);
       } else if (item.endsWith(".md")) {
         const fileContents = fs.readFileSync(itemPath, "utf8");
         const matterResult = matter(fileContents);
-        allPosts.push({
-          id: item.replace(/\.md$/, ""),
-          prefix,
-          ...(matterResult.data as Exclude<PostData, "contentHtml">),
-        });
+        const data = matterResult.data as Frontmatter;
+        if (data.path && (includeHidden || !data.hidden)) {
+          allPosts.push({
+            ...data,
+            id: item.replace(/\.md$/, ""),
+            filePath: path.relative(postsDirectory, itemPath),
+          });
+        }
       }
     });
   };
 
-  getPostsFromDir(fullPath, suffixDir);
+  getPostsFromDir(postsDirectory);
 
   return allPosts.sort((a, b) => {
-    return new Date(b.time).getTime() - new Date(a.time).getTime();
+    return new Date(b.date).getTime() - new Date(a.date).getTime();
   });
 }
 
-export async function getPostData({
-  prefixDir = "",
-  id,
-}: {
-  prefixDir?: string;
-  id: string;
-}) {
-  const fullPath = path.join(postsDirectory, prefixDir, `${id}.md`);
+export async function getPostData({ path: postPath }: { path: string }) {
+  const allPosts = getAllPostInfo({ includeHidden: true });
+  const postInfo = allPosts.find((p) => p.path === postPath);
+  if (!postInfo) {
+    throw new Error(`Post with path ${postPath} not found`);
+  }
+  const fullPath = path.join(postsDirectory, postInfo.filePath);
   const fileContents = fs.readFileSync(fullPath, "utf8");
   const matterResult = matter(fileContents);
   const processedContent = await unified()
@@ -85,7 +90,7 @@ export async function getPostData({
   const contentHtml = processedContent.toString();
 
   return {
-    ...(matterResult.data as Exclude<PostData, "contentHtml">),
+    ...postInfo,
     contentHtml,
   };
 }

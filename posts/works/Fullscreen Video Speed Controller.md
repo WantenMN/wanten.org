@@ -1,13 +1,13 @@
 ---
 title: Fullscreen Video Speed Controller
 desc: Control playback speed, and seek for fullscreen videos
-cat: works
-time: 2025-05-17 06:34
+date: 2025-05-17 06:34
 tags:
   - Userscript
   - Fullscreen
   - Video
   - Speed_Controller
+path: fullscreen_video_speed_controller
 ---
 
 ## Overview

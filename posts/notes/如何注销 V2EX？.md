@@ -1,12 +1,11 @@
 ---
 title: 如何注销 V2EX？
 desc: 如何让 Livid 破防，进而注销你的账号
-cat: notes
-time: 2024-09-23 16:06
+date: 2024-09-23 16:06
 tags:
   - V2EX
-  - Method
-  - Deactivate
+  - Account_Operation
+path: how_to_deactivate_v2ex_account
 ---
 
 ## 视频演示

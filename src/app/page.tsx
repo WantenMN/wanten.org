@@ -1,17 +1,11 @@
-import { getPostData } from "@/lib/posts";
+import PostList from "@/components/postList";
+import { getAllPostInfo } from "@/lib/posts";
 
 export const dynamic = "force-static";
 
-const Me = async () => {
-  const postData = await getPostData({ id: "home" });
-  return (
-    <>
-      <article
-        className="markdown-body"
-        dangerouslySetInnerHTML={{ __html: postData.contentHtml }}
-      />
-    </>
-  );
+const Home = async () => {
+  const allPostInfo = getAllPostInfo();
+  return <PostList allPostInfo={allPostInfo} />;
 };
 
-export default Me;
+export default Home;

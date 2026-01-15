@@ -1,9 +1,9 @@
 ---
 title: Random Chinese Characters
 desc: A simple web application to display randomly generated common Chinese characters.
-cat: tools
-time: 2024-04-04 17:37
+date: 2024-04-04 17:37
 tags:
+path: random_chinese_characters
 ---
 
 A simple web application to display randomly generated common Chinese characters.

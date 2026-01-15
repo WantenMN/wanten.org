@@ -1,14 +1,11 @@
 "use client";
 
-import { usePathname } from "next/navigation";
-
 import GiscusComments from "@/hooks/GiscusComments";
 import { PostData } from "@/lib/posts";
 
 import { Separator } from "./ui/separator";
 
 const Post = ({ postData }: { postData: PostData }) => {
-  const pathname = usePathname();
   GiscusComments();
 
   return (
@@ -18,10 +15,10 @@ const Post = ({ postData }: { postData: PostData }) => {
         <a
           className="inline-block text-zinc-400!"
           title="Edit History"
-          href={`http://github.com/WantenMN/wanten.org/commits/main/posts${pathname}.md`}
+          href={`http://github.com/WantenMN/wanten.org/commits/main/posts/${postData.id}.md`}
           target="_blank"
         >
-          <span>{postData.time}</span>
+          <span>{postData.date}</span>
         </a>
       </section>
       <section

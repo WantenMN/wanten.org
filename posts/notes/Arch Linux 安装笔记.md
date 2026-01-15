@@ -1,12 +1,12 @@
 ---
 title: Arch Linux 安装笔记
 desc: 全盘加密
-cat: notes
-time: 2025-04-08 20:51
+date: 2025-04-08 20:51
 tags:
-  - Note
   - Linux
   - Arch_Linux
+  - Installation_Guide
+path: install_arch_linux_process
 ---
 
 ## 1 制作启动 U 盘

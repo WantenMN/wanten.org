@@ -1,6 +1,10 @@
 ---
-time: 2024-09-27 14:22
+title: About
+desc: 
+date: 2024-09-27 14:22
 tags:
+path: about
+hidden: true
 ---
 
 the code for this blog is available on my [GitHub](https://github.com/WantenMN).
