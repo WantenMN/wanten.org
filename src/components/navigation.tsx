@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { Rss } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
@@ -11,6 +12,11 @@ import Image from "next/image";
 const Navigation = () => {
   const pathname = usePathname();
   const pages = [
+    {
+      title: "",
+      path: "/api/rss",
+      isIcon: true,
+    },
     {
       title: "About",
       path: "/about",
@@ -32,11 +38,12 @@ const Navigation = () => {
           <li key={index} className="flex">
             <Link
               href={page.path}
-              className={cn("hover:text-zinc-800", {
+              className={cn("flex items-center hover:text-zinc-800", {
                 "text-zinc-800 underline": pathname === page.path,
               })}
+              title={page.isIcon ? "RSS Feed" : undefined}
             >
-              {page.title}
+              {page.isIcon ? <Rss size={16} /> : page.title}
             </Link>
             {index !== pages.length - 1 ? (
               <Separator orientation="vertical" />
