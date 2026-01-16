@@ -1,4 +1,5 @@
 import PostList from "@/components/postList";
+import DateNavigation from "@/components/dateNavigation";
 import { getPostsByDate } from "@/lib/posts";
 import { notFound, redirect } from "next/navigation";
 import { Separator } from "@/components/ui/separator";
@@ -48,10 +49,17 @@ const Page = async ({
     notFound();
   }
   const posts = getPostsByDate(yearNum, monthNum);
+
   return (
     <div>
       <h1 className="mb-4 text-2xl font-bold">
-        {year} / {paddedMonth}
+        <DateNavigation type="year" currentYear={yearNum} />
+        {" / "}
+        <DateNavigation
+          type="month"
+          currentYear={yearNum}
+          currentMonth={monthNum}
+        />
       </h1>
       {posts.length > 0 && <Separator />}
       <PostList allPostInfo={posts} />

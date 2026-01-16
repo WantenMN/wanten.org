@@ -148,3 +148,53 @@ export function getAllTags(): { tag: string; count: number }[] {
     .map(([tag, count]) => ({ tag, count }))
     .sort((a, b) => b.count - a.count);
 }
+
+export function getYearsWithCount(): { year: number; count: number }[] {
+  const allPosts = getAllPostInfo({ includeHidden: false });
+  const yearCounts: Record<number, number> = {};
+  allPosts.forEach((post) => {
+    const year = new Date(post.date).getFullYear();
+    yearCounts[year] = (yearCounts[year] || 0) + 1;
+  });
+  return Object.entries(yearCounts)
+    .map(([year, count]) => ({ year: parseInt(year), count }))
+    .sort((a, b) => b.year - a.year);
+}
+
+export function getMonthsWithCount(
+  year: number
+): { month: number; count: number }[] {
+  const allPosts = getAllPostInfo({ includeHidden: false });
+  const monthCounts: Record<number, number> = {};
+  allPosts.forEach((post) => {
+    const postDate = new Date(post.date);
+    const postYear = postDate.getFullYear();
+    const postMonth = postDate.getMonth() + 1;
+    if (postYear === year) {
+      monthCounts[postMonth] = (monthCounts[postMonth] || 0) + 1;
+    }
+  });
+  return Object.entries(monthCounts)
+    .map(([month, count]) => ({ month: parseInt(month), count }))
+    .sort((a, b) => b.month - a.month);
+}
+
+export function getDaysWithCount(
+  year: number,
+  month: number
+): { day: number; count: number }[] {
+  const allPosts = getAllPostInfo({ includeHidden: false });
+  const dayCounts: Record<number, number> = {};
+  allPosts.forEach((post) => {
+    const postDate = new Date(post.date);
+    const postYear = postDate.getFullYear();
+    const postMonth = postDate.getMonth() + 1;
+    const postDay = postDate.getDate();
+    if (postYear === year && postMonth === month) {
+      dayCounts[postDay] = (dayCounts[postDay] || 0) + 1;
+    }
+  });
+  return Object.entries(dayCounts)
+    .map(([day, count]) => ({ day: parseInt(day), count }))
+    .sort((a, b) => b.day - a.day);
+}

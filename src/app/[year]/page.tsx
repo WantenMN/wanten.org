@@ -1,4 +1,5 @@
 import PostList from "@/components/postList";
+import DateNavigation from "@/components/dateNavigation";
 import { getPostsByDate } from "@/lib/posts";
 import { notFound } from "next/navigation";
 import { Separator } from "@/components/ui/separator";
@@ -30,9 +31,12 @@ const Page = async ({ params }: { params: Promise<{ year: string }> }) => {
     notFound();
   }
   const posts = getPostsByDate(yearNum);
+
   return (
     <div>
-      <h1 className="mb-4 text-2xl font-bold">{year}</h1>
+      <h1 className="mb-4 text-2xl font-bold">
+        <DateNavigation type="year" currentYear={yearNum} />
+      </h1>
       {posts.length > 0 && <Separator />}
       <PostList allPostInfo={posts} />
     </div>
