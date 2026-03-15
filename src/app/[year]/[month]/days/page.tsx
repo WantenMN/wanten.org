@@ -42,7 +42,7 @@ const Page = async ({
         />{" "}
         Days
       </h1>
-      <p className="mb-6 text-zinc-600">
+      <p className="text-muted-foreground mb-6">
         All days with posts in {year} / {month}
       </p>
 
@@ -51,18 +51,20 @@ const Page = async ({
           <Link
             key={day}
             href={`/${year}/${month}/${String(day).padStart(2, "0")}`}
-            className="flex items-center justify-between rounded-lg border border-zinc-200 p-3 transition-colors hover:border-zinc-300 hover:bg-zinc-50"
+            className="border-border hover:bg-accent flex items-center justify-between rounded-lg border p-3 transition-colors"
           >
-            <span className="text-lg font-medium text-zinc-800">
+            <span className="text-foreground text-lg font-medium">
               {year} / {month} / {String(day).padStart(2, "0")}
             </span>
-            <span className="text-sm text-zinc-500">({count} posts)</span>
+            <span className="text-muted-foreground text-sm">
+              ({count} posts)
+            </span>
           </Link>
         ))}
       </div>
 
       {days.length === 0 && (
-        <p className="text-zinc-500">
+        <p className="text-muted-foreground">
           No posts found in {year} / {month}.
         </p>
       )}

@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+html.dark .markdown-body {
+  @apply text-zinc-300;
+}
+
 .markdown-body h1 {
   @apply text-[1.5rem] font-medium;
 }
@@ -15,7 +19,7 @@
 }
 
 .markdown-body p {
-  @apply mb-6 text-base leading-normal text-zinc-800;
+  @apply mb-6 text-base leading-normal;
 }
 
 .markdown-body strong {
@@ -64,6 +68,10 @@ li ul {
   @apply text-blue-600 hover:text-blue-800 hover:underline;
 }
 
+html.dark .markdown-body a {
+  @apply text-blue-400 hover:text-blue-500;
+}
+
 .markdown-body blockquote {
   @apply border-l-4 border-zinc-300 bg-zinc-50 pl-4 italic;
 }
@@ -73,12 +81,17 @@ li ul {
 }
 
 .markdown-body code {
-  @apply rounded bg-zinc-100 px-2 py-1 text-orange-600;
+  @apply rounded bg-zinc-100 px-2 py-1 text-[#59873A];
+}
+
+html.dark .markdown-body code {
+  @apply bg-[#121212] text-[#80A665];
 }
 
 .markdown-body pre {
-  @apply mb-6 overflow-x-auto rounded bg-zinc-50! px-4 py-2 text-zinc-800;
+  @apply mb-6 overflow-x-auto border-1 rounded px-4 py-2;
 }
+
 .markdown-body pre code {
   @apply bg-transparent px-0;
 }

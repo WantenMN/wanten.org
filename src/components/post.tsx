@@ -10,11 +10,11 @@ const Post = ({ postData }: { postData: PostData }) => {
   GiscusComments();
 
   return (
-    <article className="markdown-body">
-      <h1>{postData.title}</h1>
+    <article>
+      <h1 className="mb-4 text-[1.5rem] font-medium">{postData.title}</h1>
       <section className="mt-4 mb-8 text-sm">
         <a
-          className="inline-block text-zinc-400!"
+          className="text-muted-foreground hover:text-foreground inline-block no-underline hover:no-underline"
           title="Edit History"
           href={`http://github.com/WantenMN/wanten.org/commits/main/posts/${postData.filePath}`}
           target="_blank"
@@ -24,6 +24,7 @@ const Post = ({ postData }: { postData: PostData }) => {
         <Tags tags={postData.tags} className="mt-2" />
       </section>
       <section
+        className="markdown-body"
         dangerouslySetInnerHTML={{ __html: postData.contentHtml }}
       ></section>
       <Separator />

@@ -112,6 +112,13 @@
 * {
   @apply border-border outline-ring/50;
 }
+
 body {
-  @apply text-foreground bg-zinc-50;
+  @apply bg-background text-foreground;
+}
+
+.dark .shiki,
+.dark .shiki span {
+  background-color: var(--shiki-dark-bg) !important;
+  color: var(--shiki-dark) !important;
 }

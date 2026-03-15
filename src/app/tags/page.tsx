@@ -19,7 +19,7 @@ const Page = () => {
           <li key={tag.tag} className="mb-2">
             <Link
               href={`/tags/${tag.tag}`}
-              className="text-lg font-medium text-zinc-800 hover:text-black hover:underline focus:text-black focus:underline"
+              className="text-foreground hover:text-foreground focus:text-foreground text-lg font-medium hover:underline focus:underline"
             >
               {tag.tag} ({tag.count})
             </Link>

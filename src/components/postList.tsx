@@ -13,13 +13,13 @@ const PostList = ({ allPostInfo }: { allPostInfo: AllPostInfo }) => {
       {allPostInfo.map((post, index) => (
         <li key={post.id}>
           <Link
-            className="flex-1 text-lg font-medium text-zinc-800 hover:text-black hover:underline focus:text-black focus:underline"
+            className="text-foreground hover:text-foreground focus:text-foreground flex-1 text-lg font-medium hover:underline focus:underline"
             href={post.slug}
           >
             {post.title}
           </Link>
-          <p className="my-2 text-zinc-500">{post.desc}</p>
-          <span className="block text-sm text-zinc-400">
+          <p className="text-muted-foreground my-2">{post.desc}</p>
+          <span className="text-muted-foreground block text-sm">
             {(() => {
               const [datePart, timePart] = post.date.split(" ");
               const dateParts = datePart.split("-");
@@ -28,21 +28,21 @@ const PostList = ({ allPostInfo }: { allPostInfo: AllPostInfo }) => {
                 <>
                   <Link
                     href={`/${year}`}
-                    className="text-sm text-zinc-400 hover:text-zinc-600 hover:underline"
+                    className="text-muted-foreground hover:text-foreground text-sm hover:underline"
                   >
                     {year}
                   </Link>
                   -
                   <Link
                     href={`/${year}/${month}`}
-                    className="text-sm text-zinc-400 hover:text-zinc-600 hover:underline"
+                    className="text-muted-foreground hover:text-foreground text-sm hover:underline"
                   >
                     {month}
                   </Link>
                   -
                   <Link
                     href={`/${year}/${month}/${day}`}
-                    className="text-sm text-zinc-400 hover:text-zinc-600 hover:underline"
+                    className="text-muted-foreground hover:text-foreground text-sm hover:underline"
                   >
                     {day}
                   </Link>

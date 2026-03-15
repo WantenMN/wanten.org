@@ -9,10 +9,12 @@ const Tags = ({ tags, className }: { tags: string[]; className?: string }) => {
     <div className={`mt-1 ${className || ""}`}>
       {tags.map((tag, index) => (
         <span key={tag}>
-          {index > 0 && <span className="text-sm text-zinc-400"> | </span>}
+          {index > 0 && (
+            <span className="text-muted-foreground text-sm"> | </span>
+          )}
           <Link
             href={`/tags/${tag}`}
-            className="text-sm text-zinc-400! hover:text-zinc-600! hover:underline"
+            className="text-muted-foreground hover:text-foreground text-sm hover:underline"
           >
             {tag}
           </Link>

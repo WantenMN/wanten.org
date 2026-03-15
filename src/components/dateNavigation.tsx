@@ -42,7 +42,7 @@ const DateNavigation = ({
   return (
     <Link
       href={getHref()}
-      className="text-2xl font-bold text-black hover:text-zinc-600 hover:underline focus:outline-none"
+      className="text-foreground hover:text-muted-foreground text-2xl font-bold hover:underline focus:outline-none"
     >
       {getDisplayText()}
     </Link>

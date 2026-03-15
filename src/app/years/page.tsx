@@ -15,22 +15,26 @@ const Page = async () => {
   return (
     <div>
       <h1 className="mb-4 text-2xl font-bold">Years</h1>
-      <p className="mb-6 text-zinc-600">All years with posts</p>
+      <p className="text-muted-foreground mb-6">All years with posts</p>
 
       <div className="space-y-2">
         {years.map(({ year, count }) => (
           <Link
             key={year}
             href={`/${year}`}
-            className="flex items-center justify-between rounded-lg border border-zinc-200 p-3 transition-colors hover:border-zinc-300 hover:bg-zinc-50"
+            className="border-border hover:bg-accent flex items-center justify-between rounded-lg border p-3 transition-colors"
           >
-            <span className="text-lg font-medium text-zinc-800">{year}</span>
-            <span className="text-sm text-zinc-500">({count} posts)</span>
+            <span className="text-foreground text-lg font-medium">{year}</span>
+            <span className="text-muted-foreground text-sm">
+              ({count} posts)
+            </span>
           </Link>
         ))}
       </div>
 
-      {years.length === 0 && <p className="text-zinc-500">No posts found.</p>}
+      {years.length === 0 && (
+        <p className="text-muted-foreground">No posts found.</p>
+      )}
     </div>
   );
 };

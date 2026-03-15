@@ -31,25 +31,29 @@ const Page = async ({ params }: { params: Promise<{ year: string }> }) => {
       <h1 className="mb-4 text-2xl font-bold">
         <DateNavigation type="year" currentYear={yearNum} /> Months
       </h1>
-      <p className="mb-6 text-zinc-600">All months with posts in {year}</p>
+      <p className="text-muted-foreground mb-6">
+        All months with posts in {year}
+      </p>
 
       <div className="space-y-2">
         {months.map(({ month, count }) => (
           <Link
             key={month}
             href={`/${year}/${String(month).padStart(2, "0")}`}
-            className="flex items-center justify-between rounded-lg border border-zinc-200 p-3 transition-colors hover:border-zinc-300 hover:bg-zinc-50"
+            className="border-border hover:bg-accent flex items-center justify-between rounded-lg border p-3 transition-colors"
           >
-            <span className="text-lg font-medium text-zinc-800">
+            <span className="text-foreground text-lg font-medium">
               {year} / {String(month).padStart(2, "0")}
             </span>
-            <span className="text-sm text-zinc-500">({count} posts)</span>
+            <span className="text-muted-foreground text-sm">
+              ({count} posts)
+            </span>
           </Link>
         ))}
       </div>
 
       {months.length === 0 && (
-        <p className="text-zinc-500">No posts found in {year}.</p>
+        <p className="text-muted-foreground">No posts found in {year}.</p>
       )}
     </div>
   );

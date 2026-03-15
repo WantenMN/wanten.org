@@ -3,6 +3,7 @@ import "@/styles/globals.css";
 import "@/styles/post.css";
 
 import Container from "@/components/container";
+import { ThemeProvider } from "@/components/theme-provider";
 import { BASE_DESC, BASE_TITLE } from "@/config/constants";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
@@ -18,7 +19,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <link
           rel="alternate"
@@ -35,7 +36,14 @@ export default function RootLayout({
         `}</style>
       </head>
       <body style={{ fontFamily: '"LXGW WenKai Screen", sans-serif' }}>
-        <Container>{children}</Container>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <Container>{children}</Container>
+        </ThemeProvider>
         <Analytics />
         <SpeedInsights />
       </body>

@@ -7,11 +7,17 @@ import { Rss, UserRound, Tags } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 import { Separator } from "./ui/separator";
+import { ThemeToggle } from "./theme-toggle";
 import Image from "next/image";
 
 const Navigation = () => {
   const pathname = usePathname();
   const pages = [
+    {
+      title: "",
+      path: "/api/rss",
+      icon: "Rss",
+    },
     {
       title: "About",
       path: "/about",
@@ -22,11 +28,6 @@ const Navigation = () => {
       path: "/tags",
       icon: "Tags",
     },
-    {
-      title: "",
-      path: "/api/rss",
-      icon: "Rss",
-    },
   ];
 
   return (
@@ -35,13 +36,17 @@ const Navigation = () => {
         <Image src="/favicon.ico" alt="Home" width={24} height={24} />
       </Link>
 
-      <ul className="flex leading-none text-zinc-400">
+      <ul className="text-muted-foreground flex leading-none">
+        <li className="flex">
+          <ThemeToggle />
+          <Separator orientation="vertical" />
+        </li>
         {pages.map((page, index) => (
           <li key={index} className="flex">
             <Link
               href={page.path}
-              className={cn("flex items-center hover:text-zinc-800", {
-                "text-zinc-800 underline": pathname === page.path,
+              className={cn("hover:text-foreground flex items-center", {
+                "text-foreground underline": pathname === page.path,
               })}
               title={page.icon === "Rss" ? "RSS Feed" : page.title}
             >

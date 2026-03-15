@@ -95,7 +95,11 @@ export async function getPostData({
     .use(remarkParse)
     .use(remarkRehype)
     .use(rehypeShiki, {
-      theme: "vitesse-light",
+      themes: {
+        light: "vitesse-light",
+        dark: "vitesse-dark",
+      },
+      inline: "tailing-curly-colon",
     })
     .use(rehypeExternalLinks, { target: "_blank" })
     .use(rehypeStringify)

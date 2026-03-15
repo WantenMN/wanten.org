@@ -1,6 +1,6 @@
 const Motto = () => {
   return (
-    <p className="my-2 text-center text-sm text-zinc-600 italic">
+    <p className="text-muted-foreground my-2 text-center text-sm italic">
       joy = productivity
     </p>
   );
