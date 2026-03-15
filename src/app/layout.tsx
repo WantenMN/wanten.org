@@ -28,14 +28,14 @@ export default function RootLayout({
           href="/api/rss"
         />
         <style>{`
-          @import url('https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-web/style.css');
+          @import url('https://cdn.jsdelivr.net/npm/misans@4.1.0/lib/Latin/MiSansLatin-Medium.min.css');
           body {
-            font-family: "LXGW WenKai Screen", sans-serif;
+            font-family: MiSans, sans-serif;
             font-display: swap;
           }
         `}</style>
       </head>
-      <body style={{ fontFamily: '"LXGW WenKai Screen", sans-serif' }}>
+      <body style={{ fontFamily: '"MiSans", sans-serif' }}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
