@@ -28,7 +28,7 @@ export default function RootLayout({
           href="/api/rss"
         />
         <style>{`
-          @import url('https://cdn.jsdelivr.net/npm/misans@4.1.0/lib/Latin/MiSansLatin-Medium.min.css');
+          @import url('https://cdn.jsdelivr.net/npm/misans@4.1.0/lib/Normal/MiSans-Demibold.min.css');
           body {
             font-family: MiSans, sans-serif;
             font-display: swap;
