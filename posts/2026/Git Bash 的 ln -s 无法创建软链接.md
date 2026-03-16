@@ -1,5 +1,4 @@
 ---
-title: Git Bash 的 ln -s 无法创建软链接
 desc: 在 Windows 系统中，使用 PowerShell 的 New-Item 命令创建软链接虽可行，但命令冗长且参数顺序不直观；转而尝试 Git Bash 的 ln -s 命令时，发现该命令未真正创建软链接，仅复制源文件，调研后得知需改用 mklink、配置 core.symlinks 或开启 Developer Mode，最终因操作繁琐选择继续使用 PowerShell 命令
 date: 2026-01-16 12:43
 tags:
@@ -9,6 +8,8 @@ tags:
   - PowerShell
 path: windows_git_bash_ln_s_create_symbolic_link_issue
 ---
+
+# Git Bash 的 ln -s 无法创建软链接
 
 在 Windows 中创建软链接，我一般都是在 PowerShell 中执行这个命令：
 

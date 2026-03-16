@@ -1,5 +1,4 @@
 ---
-title: 在 Obsidian 中专注于子文件夹
 desc: 在 Vault 中存在深层级子文件夹时，希望在 Obsidian 中专注于特定子目录而不被其他文件干扰。直接将子文件夹作为独立 vault 打开会生成新的配置文件夹，导致需要重复配置或占用额外空间。通过在子目录中为`.obsidian`和模板目录创建软连接，实现了继承原 vault 配置且不额外占用空间的方案，并通过脚本自动化了这一过程，最终实现了在 Obsidian 中专注于子目录的目标。
 date: 2026-01-15 12:13
 tags:
@@ -9,6 +8,8 @@ tags:
   - Feature_Requests
 path: focusing_on_a_subfolder_in_obsidian
 ---
+
+# 在 Obsidian 中专注于子文件夹
 
 我的 Vault 中很多文件夹，其中有一些文件夹有很深的子文件夹，例如 `vault/a/b/c/d/e`。某些时候我想专注于文件夹`e`进行编辑，而不想在`Files`中看到这个文件夹之外的内容。
 

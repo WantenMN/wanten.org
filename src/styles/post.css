@@ -5,7 +5,7 @@ html.dark .markdown-body {
 }
 
 .markdown-body h1 {
-  @apply text-[1.5rem] font-medium;
+  @apply my-8 text-[1.5rem] font-medium;
 }
 
 .markdown-body h2 {

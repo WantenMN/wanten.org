@@ -10,8 +10,12 @@ import { unified } from "unified";
 
 const postsDirectory = path.join(process.cwd(), "posts");
 
+function extractTitleFromMarkdown(content: string): string {
+  const match = content.match(/^#\s+(.+)$/m);
+  return match ? match[1].trim() : "";
+}
+
 export interface Frontmatter {
-  title: string;
   desc: string;
   date: string;
   tags: string[];
@@ -23,6 +27,7 @@ export interface PostInfo extends Frontmatter {
   id: string;
   filePath: string;
   slug: string;
+  title: string;
 }
 
 export interface PostData extends Frontmatter {
@@ -30,6 +35,7 @@ export interface PostData extends Frontmatter {
   id: string;
   filePath: string;
   slug: string;
+  title: string;
 }
 
 export type AllPostInfo = PostInfo[];
@@ -60,11 +66,13 @@ export function getAllPostInfo({
           const month = String(date.getMonth() + 1).padStart(2, "0");
           const day = String(date.getDate()).padStart(2, "0");
           const slug = `/${year}/${month}/${day}/${data.path}`;
+          const title = extractTitleFromMarkdown(matterResult.content);
           allPosts.push({
             ...data,
             id: item.replace(/\.md$/, ""),
             filePath: path.relative(postsDirectory, itemPath),
             slug,
+            title,
           });
         }
       }
@@ -91,6 +99,8 @@ export async function getPostData({
   const fullPath = path.join(postsDirectory, postInfo.filePath);
   const fileContents = fs.readFileSync(fullPath, "utf8");
   const matterResult = matter(fileContents);
+  const title = extractTitleFromMarkdown(matterResult.content);
+  const contentWithoutH1 = matterResult.content.replace(/^#\s+.+$/m, "").trim();
   const processedContent = await unified()
     .use(remarkParse)
     .use(remarkRehype)
@@ -103,12 +113,13 @@ export async function getPostData({
     })
     .use(rehypeExternalLinks, { target: "_blank" })
     .use(rehypeStringify)
-    .process(matterResult.content);
+    .process(contentWithoutH1);
   const contentHtml = processedContent.toString();
 
   return {
     ...postInfo,
     contentHtml,
+    title,
   };
 }
 

@@ -1,5 +1,4 @@
 ---
-title: 在 Archlinux 上运行网易云音乐
 desc: 在 Arch Linux 环境下通过 Wine 运行网易云音乐的完整流程，包括安装 Wine 及相关组件、下载 Windows 版网易云音乐安装包、使用 winetricks 配置字体和运行依赖，以及安装完成后的具体启动方式
 date: 2026-01-26 19:19
 tags:
@@ -9,6 +8,8 @@ tags:
   - NetEase_Cloud_Music
 path: run_netease_music_on_archlinux
 ---
+
+# 在 Archlinux 上运行网易云音乐
 
 安装必要的软件：
 
