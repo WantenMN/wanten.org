@@ -7,6 +7,8 @@ tags:
   - Symbolic_Link
   - PowerShell
 path: windows_git_bash_ln_s_create_symbolic_link_issue
+status:
+  - P5
 ---
 
 # Git Bash 的 ln -s 无法创建软链接

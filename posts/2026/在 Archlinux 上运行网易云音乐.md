@@ -7,6 +7,8 @@ tags:
   - Wine
   - NetEase_Cloud_Music
 path: run_netease_music_on_archlinux
+status:
+  - P5
 ---
 
 # 在 Archlinux 上运行网易云音乐

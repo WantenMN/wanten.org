@@ -7,6 +7,8 @@ tags:
   - Symlink
   - Feature_Requests
 path: focusing_on_a_subfolder_in_obsidian
+status:
+  - P5
 ---
 
 # 在 Obsidian 中专注于子文件夹
