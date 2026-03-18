@@ -2,11 +2,31 @@ import type { MouseEvent } from "react";
 
 import { copyText } from "@/lib/copy";
 
-const COPY_RESET_MS = 1500;
-
 export const useCodeCopy = () => {
   const handleMarkdownClick = async (event: MouseEvent<HTMLElement>) => {
     const target = event.target as HTMLElement;
+
+    const headingAnchor = target.closest<HTMLAnchorElement>(".heading-anchor");
+    if (headingAnchor) {
+      event.preventDefault();
+
+      const id = headingAnchor.getAttribute("href")?.slice(1);
+      if (!id) {
+        return;
+      }
+
+      const heading = document.getElementById(id);
+      if (!heading) {
+        return;
+      }
+
+      const url = `${window.location.origin}${window.location.pathname}#${id}`;
+      window.history.replaceState(null, "", `#${id}`);
+      heading.scrollIntoView();
+      await copyText(url);
+      return;
+    }
+
     const button = target.closest<HTMLButtonElement>(".copy-code-button");
     if (!button) {
       return;
@@ -34,7 +54,7 @@ export const useCodeCopy = () => {
     const resetTimer = window.setTimeout(() => {
       button.dataset.state = "idle";
       delete button.dataset.resetTimer;
-    }, COPY_RESET_MS);
+    }, 1500);
 
     button.dataset.resetTimer = String(resetTimer);
   };

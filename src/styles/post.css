@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+.markdown-body {
+  overflow: visible;
+}
+
 html.dark .markdown-body {
   @apply text-zinc-300;
 }
@@ -16,6 +20,40 @@ html.dark .markdown-body {
 }
 .markdown-body h4 {
   @apply my-8 text-[1.1rem] font-medium;
+}
+
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4,
+.markdown-body h5,
+.markdown-body h6 {
+  @apply relative;
+  scroll-margin-top: 1.5rem;
+}
+
+.markdown-body .heading-with-anchor {
+  @apply inline-flex items-center gap-2 pl-0;
+}
+
+.markdown-body .heading-content {
+  @apply inline;
+}
+
+.markdown-body .heading-anchor {
+  @apply inline-flex items-center self-center text-zinc-400 no-underline opacity-0 transition-opacity select-none;
+}
+
+html.dark .markdown-body .heading-anchor {
+  @apply text-zinc-500;
+}
+
+.markdown-body h2:hover .heading-anchor,
+.markdown-body h3:hover .heading-anchor,
+.markdown-body h4:hover .heading-anchor,
+.markdown-body h5:hover .heading-anchor,
+.markdown-body h6:hover .heading-anchor,
+.markdown-body .heading-anchor:focus-visible {
+  @apply opacity-100;
 }
 
 .markdown-body p {

@@ -9,6 +9,7 @@ import remarkRehype from "remark-rehype";
 import { unified } from "unified";
 
 import { rehypeCodeCopyButton } from "./rehype/rehype-code-copy-button";
+import { rehypeHeadingAnchor } from "./rehype/rehype-heading-anchor";
 
 const postsDirectory = path.join(process.cwd(), "posts");
 
@@ -114,6 +115,7 @@ export async function getPostData({
       inline: "tailing-curly-colon",
     })
     .use(rehypeCodeCopyButton)
+    .use(rehypeHeadingAnchor)
     .use(rehypeExternalLinks, { target: "_blank" })
     .use(rehypeStringify)
     .process(contentWithoutH1);
