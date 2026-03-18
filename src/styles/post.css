@@ -88,12 +88,59 @@ html.dark .markdown-body code {
   @apply bg-[#121212] text-[#80A665];
 }
 
+.markdown-body .code-block {
+  --copy-button-size: 2rem;
+  --copy-button-offset: 0.5rem;
+  --copy-button-safe-space: calc(
+    var(--copy-button-size) + var(--copy-button-offset) * 2
+  );
+  @apply relative mb-6;
+}
+
 .markdown-body pre {
-  @apply mb-6 overflow-x-auto border-1 rounded px-4 py-2;
+  @apply mb-0 overflow-x-auto rounded border-1 py-2 pl-4;
+  padding-right: var(--copy-button-safe-space);
 }
 
 .markdown-body pre code {
-  @apply bg-transparent px-0;
+  @apply block bg-transparent px-0;
+  min-width: max-content;
+}
+
+.markdown-body .copy-code-button {
+  @apply absolute z-10 inline-flex cursor-pointer items-center justify-center rounded-md border border-zinc-200 bg-zinc-50 text-zinc-500 transition-colors;
+  top: var(--copy-button-offset);
+  right: var(--copy-button-offset);
+  width: var(--copy-button-size);
+  height: var(--copy-button-size);
+}
+
+.markdown-body .copy-code-button:hover {
+  @apply border-zinc-300 bg-zinc-100 text-zinc-700;
+}
+
+.markdown-body .copy-code-button svg {
+  @apply h-4 w-4;
+}
+
+.markdown-body .copy-code-icon-check {
+  @apply hidden;
+}
+
+.markdown-body .copy-code-button[data-state="copied"] .copy-code-icon-copy {
+  @apply hidden;
+}
+
+.markdown-body .copy-code-button[data-state="copied"] .copy-code-icon-check {
+  @apply block;
+}
+
+html.dark .markdown-body .copy-code-button {
+  @apply border-zinc-700 bg-zinc-900 text-zinc-400;
+}
+
+html.dark .markdown-body .copy-code-button:hover {
+  @apply border-zinc-600 bg-zinc-800 text-zinc-200;
 }
 
 .markdown-body hr {

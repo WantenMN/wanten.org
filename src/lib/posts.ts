@@ -8,6 +8,8 @@ import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
 import { unified } from "unified";
 
+import { rehypeCodeCopyButton } from "./rehype/rehype-code-copy-button";
+
 const postsDirectory = path.join(process.cwd(), "posts");
 
 function extractTitleFromMarkdown(content: string): string {
@@ -111,6 +113,7 @@ export async function getPostData({
       },
       inline: "tailing-curly-colon",
     })
+    .use(rehypeCodeCopyButton)
     .use(rehypeExternalLinks, { target: "_blank" })
     .use(rehypeStringify)
     .process(contentWithoutH1);
