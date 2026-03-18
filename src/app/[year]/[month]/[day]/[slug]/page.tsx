@@ -3,7 +3,7 @@ import { notFound, redirect } from "next/navigation";
 
 import Post from "@/components/post";
 import { BASE_TITLE } from "@/config/constants";
-import { getAllPostInfo, getPostData } from "@/lib/posts";
+import { getAdjacentPosts, getAllPostInfo, getPostData } from "@/lib/posts";
 
 export function generateStaticParams() {
   return getAllPostInfo({ includeHidden: true }).map((post) => {
@@ -35,7 +35,8 @@ const Page = async ({
   if (!postData) {
     notFound();
   }
-  return <Post postData={postData} />;
+  const adjacentPosts = getAdjacentPosts(fullSlug);
+  return <Post postData={postData} adjacentPosts={adjacentPosts} />;
 };
 
 export async function generateMetadata({

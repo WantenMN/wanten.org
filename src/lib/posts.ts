@@ -41,6 +41,11 @@ export interface PostData extends Frontmatter {
   title: string;
 }
 
+export interface AdjacentPost {
+  slug: string;
+  title: string;
+}
+
 export type AllPostInfo = PostInfo[];
 
 export function getAllPostInfo({
@@ -125,6 +130,43 @@ export async function getPostData({
     ...postInfo,
     contentHtml,
     title,
+  };
+}
+
+export function getAdjacentPosts(
+  slug: string,
+  { includeHidden = false }: { includeHidden?: boolean } = {}
+): {
+  previousPost: AdjacentPost | null;
+  nextPost: AdjacentPost | null;
+} {
+  const allPosts = getAllPostInfo({ includeHidden });
+  const currentIndex = allPosts.findIndex((post) => post.slug === slug);
+
+  if (currentIndex === -1) {
+    return {
+      previousPost: null,
+      nextPost: null,
+    };
+  }
+
+  const previousPost = allPosts[currentIndex + 1]
+    ? {
+        slug: allPosts[currentIndex + 1].slug,
+        title: allPosts[currentIndex + 1].title,
+      }
+    : null;
+
+  const nextPost = allPosts[currentIndex - 1]
+    ? {
+        slug: allPosts[currentIndex - 1].slug,
+        title: allPosts[currentIndex - 1].title,
+      }
+    : null;
+
+  return {
+    previousPost,
+    nextPost,
   };
 }
 
