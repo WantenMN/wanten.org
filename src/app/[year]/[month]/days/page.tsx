@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { getDaysWithCount } from "@/lib/posts";
 import { notFound } from "next/navigation";
-import { Separator } from "@/components/ui/separator";
 import { BASE_TITLE } from "@/config/constants";
 import DateNavigation from "@/components/dateNavigation";
 

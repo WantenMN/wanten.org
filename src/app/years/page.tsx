@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { getYearsWithCount } from "@/lib/posts";
-import { Separator } from "@/components/ui/separator";
 import { BASE_TITLE } from "@/config/constants";
 
 export async function generateMetadata() {
