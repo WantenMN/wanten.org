@@ -28,14 +28,17 @@ export default function RootLayout({
           href="/api/rss"
         />
         <style>{`
-          @import url('https://cdn.jsdelivr.net/npm/misans@4.1.0/lib/Normal/MiSans-Demibold.min.css');
+          @import url('https://cdn.jsdelivr.net/npm/@fontsource/jetbrains-mono@5.2.5/index.css');
+          @import url('https://cdn.jsdelivr.net/npm/@fontsource/jetbrains-mono@5.2.5/500.css');
+          @import url('https://cdn.jsdelivr.net/npm/@fontsource/jetbrains-mono@5.2.5/700.css');
+          @import url('https://cdn.jsdelivr.net/npm/misans@4.1.0/lib/Normal/MiSans-Regular.min.css');
           body {
-            font-family: MiSans, sans-serif;
+            font-family: "JetBrains Mono", MiSans, monospace, sans-serif;
             font-display: swap;
           }
         `}</style>
       </head>
-      <body style={{ fontFamily: '"MiSans", sans-serif' }}>
+      <body style={{ fontFamily: '"JetBrains Mono", "MiSans", monospace, sans-serif' }}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
