@@ -1,10 +1,10 @@
 import { Link, createFileRoute } from "@tanstack/react-router";
 
 import { BASE_TITLE } from "@/config/constants";
-import { getYearsWithCountFn } from "@/lib/posts.functions";
+import { getYearsWithCount } from "@/lib/posts";
 
 export const Route = createFileRoute("/years")({
-  loader: async () => await getYearsWithCountFn(),
+  loader: () => getYearsWithCount(),
   head: () => ({
     meta: [{ title: `Years - ${BASE_TITLE}` }],
   }),

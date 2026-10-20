@@ -1,21 +1,4 @@
-import fs from "fs";
-import matter from "gray-matter";
-import path from "path";
-import rehypeExternalLinks from "rehype-external-links";
-import rehypeShiki from "@shikijs/rehype";
-import rehypeStringify from "rehype-stringify";
-import remarkParse from "remark-parse";
-import remarkRehype from "remark-rehype";
-import { unified } from "unified";
-
-import { rehypeCodeCopyButton } from "./rehype/rehype-code-copy-button";
-import { rehypeHeadingAnchor } from "./rehype/rehype-heading-anchor";
-
-const postsDirectory = path.join(process.cwd(), "posts");
-
-function extractTitleFromFilename(filePath: string): string {
-  return path.basename(filePath, ".md");
-}
+import generatedPosts from "@/generated/posts.json";
 
 export interface Frontmatter {
   date: string;
@@ -44,119 +27,43 @@ export interface AdjacentPost {
 
 export type AllPostInfo = PostInfo[];
 
-export function getAllPostInfo({
-  includeHidden = false,
-}: {
-  includeHidden?: boolean;
-} = {}): AllPostInfo {
-  const allPosts: AllPostInfo = [];
+const allPostData = generatedPosts as PostData[];
 
-  const getPostsFromDir = (directory: string) => {
-    const items = fs.readdirSync(directory);
-
-    items.forEach((item) => {
-      const itemPath = path.join(directory, item);
-      const stats = fs.statSync(itemPath);
-
-      if (stats.isDirectory()) {
-        getPostsFromDir(itemPath);
-      } else if (item.endsWith(".md")) {
-        const fileContents = fs.readFileSync(itemPath, "utf8");
-        const matterResult = matter(fileContents);
-        const data = matterResult.data as Frontmatter;
-        if (data.date && (includeHidden || !data.hidden)) {
-          const date = new Date(data.date);
-          if (isNaN(date.getTime())) {
-            throw new Error(`Invalid date "${data.date}" in ${itemPath}`);
-          }
-          const year = date.getFullYear();
-          const month = String(date.getMonth() + 1).padStart(2, "0");
-          const day = String(date.getDate()).padStart(2, "0");
-          const hour = String(date.getHours()).padStart(2, "0");
-          const minute = String(date.getMinutes()).padStart(2, "0");
-          const slug = `/${year}/${month}/${day}/${hour}${minute}`;
-          const title = extractTitleFromFilename(itemPath);
-          allPosts.push({
-            ...data,
-            id: item.replace(/\.md$/, ""),
-            filePath: path.relative(postsDirectory, itemPath),
-            slug,
-            title,
-          });
-        }
-      }
-    });
-  };
-
-  getPostsFromDir(postsDirectory);
-
-  const seenSlugs = new Map<string, string>();
-  for (const post of allPosts) {
-    const existing = seenSlugs.get(post.slug);
-    if (existing) {
-      throw new Error(
-        `Duplicate slug "${post.slug}" from date "${post.date}": ${existing} and ${post.filePath}. Posts sharing the same minute collide; adjust the date to be unique.`
-      );
-    }
-    seenSlugs.set(post.slug, post.filePath);
-  }
-
-  return allPosts.sort((a, b) => {
-    return new Date(b.date).getTime() - new Date(a.date).getTime();
-  });
+function toPostInfo(post: PostData): PostInfo {
+  const { contentHtml: _contentHtml, ...info } = post;
+  return info;
 }
 
-export async function getPostData({
-  slug,
-}: {
-  slug: string;
-}): Promise<PostData | null> {
-  const allPosts = getAllPostInfo({ includeHidden: true });
-  const postInfo = allPosts.find((p) => p.slug === slug);
-  if (!postInfo) {
-    return null;
-  }
-  const fullPath = path.join(postsDirectory, postInfo.filePath);
-  const fileContents = fs.readFileSync(fullPath, "utf8");
-  const matterResult = matter(fileContents);
-  const title = postInfo.title;
-  let markdownBody = matterResult.content.trim();
-  const h1Match = markdownBody.match(/^#\s+(.+)$/m);
-  if (h1Match && h1Match[1].trim() === title) {
-    markdownBody = markdownBody.replace(/^#\s+.+$/m, "").trim();
-  }
-  const processedContent = await unified()
-    .use(remarkParse)
-    .use(remarkRehype)
-    .use(rehypeShiki, {
-      themes: {
-        light: "vitesse-light",
-        dark: "vitesse-dark",
-      },
-      inline: "tailing-curly-colon",
-    })
-    .use(rehypeCodeCopyButton)
-    .use(rehypeHeadingAnchor)
-    .use(rehypeExternalLinks, { target: "_blank" })
-    .use(rehypeStringify)
-    .process(markdownBody);
-  const contentHtml = processedContent.toString();
+export function getAllPostInfo(
+  { includeHidden = false }: { includeHidden?: boolean } = {},
+  source: PostData[] = allPostData
+): AllPostInfo {
+  return source.filter((post) => includeHidden || !post.hidden).map(toPostInfo);
+}
 
-  return {
-    ...postInfo,
-    contentHtml,
-    title,
-  };
+export function getPostData(
+  { slug }: { slug: string },
+  source: PostData[] = allPostData
+): PostData | null {
+  return source.find((post) => post.slug === slug) ?? null;
+}
+
+export function getPostByFilePath(
+  filePath: string,
+  source: PostData[] = allPostData
+): PostData | null {
+  return source.find((post) => post.filePath === filePath) ?? null;
 }
 
 export function getAdjacentPosts(
   slug: string,
-  { includeHidden = false }: { includeHidden?: boolean } = {}
+  { includeHidden = false }: { includeHidden?: boolean } = {},
+  source: PostData[] = allPostData
 ): {
   previousPost: AdjacentPost | null;
   nextPost: AdjacentPost | null;
 } {
-  const allPosts = getAllPostInfo({ includeHidden });
+  const allPosts = getAllPostInfo({ includeHidden }, source);
   const currentIndex = allPosts.findIndex((post) => post.slug === slug);
 
   if (currentIndex === -1) {
@@ -189,10 +96,10 @@ export function getAdjacentPosts(
 export function getPostsByDate(
   year?: number,
   month?: number,
-  day?: number
+  day?: number,
+  source: PostData[] = allPostData
 ): AllPostInfo {
-  const allPosts = getAllPostInfo({ includeHidden: false });
-  return allPosts.filter((post) => {
+  return getAllPostInfo({ includeHidden: false }, source).filter((post) => {
     const postDate = new Date(post.date);
     if (year && postDate.getFullYear() !== year) {
       return false;
@@ -207,10 +114,11 @@ export function getPostsByDate(
   });
 }
 
-export function getYearsWithCount(): { year: number; count: number }[] {
-  const allPosts = getAllPostInfo({ includeHidden: false });
+export function getYearsWithCount(
+  source: PostData[] = allPostData
+): { year: number; count: number }[] {
   const yearCounts: Record<number, number> = {};
-  allPosts.forEach((post) => {
+  getAllPostInfo({ includeHidden: false }, source).forEach((post) => {
     const year = new Date(post.date).getFullYear();
     yearCounts[year] = (yearCounts[year] || 0) + 1;
   });
@@ -220,11 +128,11 @@ export function getYearsWithCount(): { year: number; count: number }[] {
 }
 
 export function getMonthsWithCount(
-  year: number
+  year: number,
+  source: PostData[] = allPostData
 ): { month: number; count: number }[] {
-  const allPosts = getAllPostInfo({ includeHidden: false });
   const monthCounts: Record<number, number> = {};
-  allPosts.forEach((post) => {
+  getAllPostInfo({ includeHidden: false }, source).forEach((post) => {
     const postDate = new Date(post.date);
     const postYear = postDate.getFullYear();
     const postMonth = postDate.getMonth() + 1;
@@ -239,11 +147,11 @@ export function getMonthsWithCount(
 
 export function getDaysWithCount(
   year: number,
-  month: number
+  month: number,
+  source: PostData[] = allPostData
 ): { day: number; count: number }[] {
-  const allPosts = getAllPostInfo({ includeHidden: false });
   const dayCounts: Record<number, number> = {};
-  allPosts.forEach((post) => {
+  getAllPostInfo({ includeHidden: false }, source).forEach((post) => {
     const postDate = new Date(post.date);
     const postYear = postDate.getFullYear();
     const postMonth = postDate.getMonth() + 1;

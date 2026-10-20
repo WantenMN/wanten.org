@@ -9,12 +9,17 @@
 # testing
 /coverage
 
-# build outputs (TanStack Start / Vite / Nitro)
+# build outputs (Vite)
 dist/
 .output/
 .nitro/
 build/
 /out/
+
+# generated at build time
+src/generated/
+public/rss.xml
+public/sitemap.xml
 
 # misc
 .DS_Store

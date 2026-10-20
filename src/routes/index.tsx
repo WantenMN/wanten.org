@@ -2,10 +2,10 @@ import { createFileRoute } from "@tanstack/react-router";
 
 import PostList from "@/components/postList";
 import { BASE_TITLE } from "@/config/constants";
-import { getAllPostInfoFn } from "@/lib/posts.functions";
+import { getAllPostInfo } from "@/lib/posts";
 
 export const Route = createFileRoute("/")({
-  loader: async () => await getAllPostInfoFn({ data: {} }),
+  loader: () => getAllPostInfo({}),
   head: () => ({
     meta: [{ title: BASE_TITLE }],
   }),

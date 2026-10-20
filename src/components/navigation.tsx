@@ -13,7 +13,7 @@ const Navigation = () => {
   const pages = [
     {
       title: "",
-      path: "/api/rss",
+      path: "/rss.xml",
       icon: "Rss",
     },
     {

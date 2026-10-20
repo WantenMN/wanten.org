@@ -1,7 +1,7 @@
+import path from "node:path";
 import tailwindcss from "@tailwindcss/vite";
-import { tanstackStart } from "@tanstack/react-start/plugin/vite";
+import { TanStackRouterVite } from "@tanstack/router-plugin/vite";
 import viteReact from "@vitejs/plugin-react";
-import { nitro } from "nitro/vite";
 import { defineConfig } from "vite";
 
 export default defineConfig({
@@ -9,18 +9,21 @@ export default defineConfig({
     port: 3000,
   },
   resolve: {
-    tsconfigPaths: true,
+    alias: {
+      "@": path.resolve(import.meta.dirname, "src"),
+    },
+  },
+  build: {
+    manifest: true,
   },
   plugins: [
     tailwindcss(),
-    tanstackStart({
-      srcDirectory: "src",
-      prerender: {
-        enabled: true,
-        crawlLinks: true,
-      },
+    TanStackRouterVite({
+      target: "react",
+      autoCodeSplitting: false,
+      routesDirectory: "src/routes",
+      generatedRouteTree: "src/routeTree.gen.ts",
     }),
     viteReact(),
-    nitro(),
   ],
 });

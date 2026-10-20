@@ -2,18 +2,19 @@ import { Link, createFileRoute, notFound } from "@tanstack/react-router";
 
 import DateNavigation from "@/components/dateNavigation";
 import { BASE_TITLE } from "@/config/constants";
-import { getDaysWithCountFn } from "@/lib/posts.functions";
+import { getDaysWithCount } from "@/lib/posts";
 
 export const Route = createFileRoute("/$year/$month/days")({
-  loader: async ({ params }) => {
-    const yearNum = parseInt(params.year);
-    const monthNum = parseInt(params.month);
-    if (isNaN(yearNum) || isNaN(monthNum)) {
+  loader: ({ params }) => {
+    if (!/^\d{2}$/.test(params.month)) {
       throw notFound();
     }
-    const days = await getDaysWithCountFn({
-      data: { year: yearNum, month: monthNum },
-    });
+    const yearNum = parseInt(params.year);
+    const monthNum = parseInt(params.month);
+    if (isNaN(yearNum) || isNaN(monthNum) || monthNum < 1 || monthNum > 12) {
+      throw notFound();
+    }
+    const days = getDaysWithCount(yearNum, monthNum);
     return { yearNum, monthNum, days };
   },
   head: ({ params }) => ({

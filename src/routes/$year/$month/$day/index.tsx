@@ -1,51 +1,38 @@
-import { createFileRoute, notFound, redirect } from "@tanstack/react-router";
+import { createFileRoute, notFound } from "@tanstack/react-router";
 
 import DateNavigation from "@/components/dateNavigation";
 import PostList from "@/components/postList";
 import { Separator } from "@/components/ui/separator";
 import { BASE_TITLE } from "@/config/constants";
-import { getPostsByDateFn } from "@/lib/posts.functions";
+import { getPostsByDate } from "@/lib/posts";
 
 export const Route = createFileRoute("/$year/$month/$day/")({
-  beforeLoad: ({ params }) => {
-    const paddedMonth = params.month.padStart(2, "0");
-    const paddedDay = params.day.padStart(2, "0");
-    if (params.month !== paddedMonth || params.day !== paddedDay) {
-      throw redirect({
-        to: "/$year/$month/$day",
-        params: {
-          year: params.year,
-          month: paddedMonth,
-          day: paddedDay,
-        },
-      });
-    }
-  },
-  loader: async ({ params }) => {
-    const paddedMonth = params.month.padStart(2, "0");
-    const paddedDay = params.day.padStart(2, "0");
-    const yearNum = parseInt(params.year);
-    const monthNum = parseInt(paddedMonth);
-    const dayNum = parseInt(paddedDay);
-    if (isNaN(yearNum) || isNaN(monthNum) || isNaN(dayNum)) {
+  loader: ({ params }) => {
+    if (!/^\d{2}$/.test(params.month) || !/^\d{2}$/.test(params.day)) {
       throw notFound();
     }
-    const posts = await getPostsByDateFn({
-      data: { year: yearNum, month: monthNum, day: dayNum },
-    });
+    const yearNum = parseInt(params.year);
+    const monthNum = parseInt(params.month);
+    const dayNum = parseInt(params.day);
+    if (
+      isNaN(yearNum) ||
+      isNaN(monthNum) ||
+      isNaN(dayNum) ||
+      monthNum < 1 ||
+      monthNum > 12
+    ) {
+      throw notFound();
+    }
+    const posts = getPostsByDate(yearNum, monthNum, dayNum);
     return { yearNum, monthNum, dayNum, posts };
   },
-  head: ({ params }) => {
-    const paddedMonth = params.month.padStart(2, "0");
-    const paddedDay = params.day.padStart(2, "0");
-    return {
-      meta: [
-        {
-          title: `${params.year} / ${paddedMonth} / ${paddedDay} - ${BASE_TITLE}`,
-        },
-      ],
-    };
-  },
+  head: ({ params }) => ({
+    meta: [
+      {
+        title: `${params.year} / ${params.month} / ${params.day} - ${BASE_TITLE}`,
+      },
+    ],
+  }),
   component: DayPage,
 });
 

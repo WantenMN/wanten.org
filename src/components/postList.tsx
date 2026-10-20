@@ -22,7 +22,9 @@ const PostList = ({ allPostInfo }: { allPostInfo: AllPostInfo }) => {
               {(() => {
                 const [datePart, timePart] = post.date.split(" ");
                 const dateParts = datePart.split("-");
-                const [yearPart, monthPart, dayPart] = dateParts;
+                const [yearPart, monthPart, dayPart] = dateParts.map((part) =>
+                  String(Number(part)).padStart(2, "0")
+                );
                 return (
                   <>
                     <Link

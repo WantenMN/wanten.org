@@ -2,15 +2,15 @@ import { Link, createFileRoute, notFound } from "@tanstack/react-router";
 
 import DateNavigation from "@/components/dateNavigation";
 import { BASE_TITLE } from "@/config/constants";
-import { getMonthsWithCountFn } from "@/lib/posts.functions";
+import { getMonthsWithCount } from "@/lib/posts";
 
 export const Route = createFileRoute("/$year/months")({
-  loader: async ({ params }) => {
+  loader: ({ params }) => {
     const yearNum = parseInt(params.year);
     if (isNaN(yearNum)) {
       throw notFound();
     }
-    const months = await getMonthsWithCountFn({ data: { year: yearNum } });
+    const months = getMonthsWithCount(yearNum);
     return { yearNum, months };
   },
   head: ({ params }) => ({

@@ -2,13 +2,13 @@ import { createFileRoute, notFound } from "@tanstack/react-router";
 
 import Post from "@/components/post";
 import { BASE_TITLE } from "@/config/constants";
-import { getPostDataFn } from "@/lib/posts.functions";
+import { getPostByFilePath } from "@/lib/posts";
 
-const ABOUT_SLUG = "/2024/09/27/1422";
+const ABOUT_FILE_PATH = "关于.md";
 
 export const Route = createFileRoute("/about")({
-  loader: async () => {
-    const postData = await getPostDataFn({ data: { slug: ABOUT_SLUG } });
+  loader: () => {
+    const postData = getPostByFilePath(ABOUT_FILE_PATH);
     if (!postData) {
       throw notFound();
     }

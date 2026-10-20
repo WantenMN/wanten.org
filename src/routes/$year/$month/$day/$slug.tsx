@@ -1,36 +1,24 @@
-import { createFileRoute, notFound, redirect } from "@tanstack/react-router";
+import { createFileRoute, notFound } from "@tanstack/react-router";
 
 import Post from "@/components/post";
 import { BASE_TITLE } from "@/config/constants";
-import { getAdjacentPostsFn, getPostDataFn } from "@/lib/posts.functions";
+import { getAdjacentPosts, getPostData } from "@/lib/posts";
 
 export const Route = createFileRoute("/$year/$month/$day/$slug")({
-  beforeLoad: ({ params }) => {
-    const paddedMonth = params.month.padStart(2, "0");
-    const paddedDay = params.day.padStart(2, "0");
-    if (params.month !== paddedMonth || params.day !== paddedDay) {
-      throw redirect({
-        to: "/$year/$month/$day/$slug",
-        params: {
-          year: params.year,
-          month: paddedMonth,
-          day: paddedDay,
-          slug: params.slug,
-        },
-      });
+  loader: ({ params }) => {
+    if (
+      !/^\d{2}$/.test(params.month) ||
+      !/^\d{2}$/.test(params.day) ||
+      !/^\d{4}$/.test(params.slug)
+    ) {
+      throw notFound();
     }
-  },
-  loader: async ({ params }) => {
-    const paddedMonth = params.month.padStart(2, "0");
-    const paddedDay = params.day.padStart(2, "0");
-    const fullSlug = `/${params.year}/${paddedMonth}/${paddedDay}/${params.slug}`;
-    const postData = await getPostDataFn({ data: { slug: fullSlug } });
+    const fullSlug = `/${params.year}/${params.month}/${params.day}/${params.slug}`;
+    const postData = getPostData({ slug: fullSlug });
     if (!postData) {
       throw notFound();
     }
-    const adjacentPosts = await getAdjacentPostsFn({
-      data: { slug: fullSlug },
-    });
+    const adjacentPosts = getAdjacentPosts(fullSlug);
     return { postData, adjacentPosts };
   },
   head: ({ loaderData }) => ({

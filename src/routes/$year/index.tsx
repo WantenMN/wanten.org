@@ -4,15 +4,15 @@ import DateNavigation from "@/components/dateNavigation";
 import PostList from "@/components/postList";
 import { Separator } from "@/components/ui/separator";
 import { BASE_TITLE } from "@/config/constants";
-import { getPostsByDateFn } from "@/lib/posts.functions";
+import { getPostsByDate } from "@/lib/posts";
 
 export const Route = createFileRoute("/$year/")({
-  loader: async ({ params }) => {
+  loader: ({ params }) => {
     const yearNum = parseInt(params.year);
     if (isNaN(yearNum)) {
       throw notFound();
     }
-    const posts = await getPostsByDateFn({ data: { year: yearNum } });
+    const posts = getPostsByDate(yearNum);
     return { yearNum, posts };
   },
   head: ({ params }) => ({

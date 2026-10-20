@@ -6,9 +6,6 @@ import {
 } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 
-import "@/styles/globals.css";
-import "@/styles/post.css";
-
 import Container from "@/components/container";
 import { NotFound } from "@/components/NotFound";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -37,7 +34,7 @@ export const Route = createRootRoute({
         rel: "alternate",
         type: "application/rss+xml",
         title: "RSS",
-        href: "/api/rss",
+        href: "/rss.xml",
       },
       { rel: "icon", href: "/favicon.ico" },
     ],

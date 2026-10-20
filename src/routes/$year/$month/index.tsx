@@ -1,39 +1,27 @@
-import { createFileRoute, notFound, redirect } from "@tanstack/react-router";
+import { createFileRoute, notFound } from "@tanstack/react-router";
 
 import DateNavigation from "@/components/dateNavigation";
 import PostList from "@/components/postList";
 import { Separator } from "@/components/ui/separator";
 import { BASE_TITLE } from "@/config/constants";
-import { getPostsByDateFn } from "@/lib/posts.functions";
+import { getPostsByDate } from "@/lib/posts";
 
 export const Route = createFileRoute("/$year/$month/")({
-  beforeLoad: ({ params }) => {
-    const paddedMonth = params.month.padStart(2, "0");
-    if (params.month !== paddedMonth) {
-      throw redirect({
-        to: "/$year/$month",
-        params: { year: params.year, month: paddedMonth },
-      });
-    }
-  },
-  loader: async ({ params }) => {
-    const paddedMonth = params.month.padStart(2, "0");
-    const yearNum = parseInt(params.year);
-    const monthNum = parseInt(paddedMonth);
-    if (isNaN(yearNum) || isNaN(monthNum)) {
+  loader: ({ params }) => {
+    if (!/^\d{2}$/.test(params.month)) {
       throw notFound();
     }
-    const posts = await getPostsByDateFn({
-      data: { year: yearNum, month: monthNum },
-    });
+    const yearNum = parseInt(params.year);
+    const monthNum = parseInt(params.month);
+    if (isNaN(yearNum) || isNaN(monthNum) || monthNum < 1 || monthNum > 12) {
+      throw notFound();
+    }
+    const posts = getPostsByDate(yearNum, monthNum);
     return { yearNum, monthNum, posts };
   },
-  head: ({ params }) => {
-    const paddedMonth = params.month.padStart(2, "0");
-    return {
-      meta: [{ title: `${params.year} / ${paddedMonth} - ${BASE_TITLE}` }],
-    };
-  },
+  head: ({ params }) => ({
+    meta: [{ title: `${params.year} / ${params.month} - ${BASE_TITLE}` }],
+  }),
   component: MonthPage,
 });
 
