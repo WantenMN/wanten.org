@@ -1,15 +1,18 @@
-import Link from "next/link";
-import { getYearsWithCount } from "@/lib/posts";
+import { Link, createFileRoute } from "@tanstack/react-router";
+
 import { BASE_TITLE } from "@/config/constants";
+import { getYearsWithCountFn } from "@/lib/posts.functions";
 
-export async function generateMetadata() {
-  return {
-    title: `Years - ${BASE_TITLE}`,
-  };
-}
+export const Route = createFileRoute("/years")({
+  loader: async () => await getYearsWithCountFn(),
+  head: () => ({
+    meta: [{ title: `Years - ${BASE_TITLE}` }],
+  }),
+  component: Years,
+});
 
-const Page = async () => {
-  const years = getYearsWithCount();
+function Years() {
+  const years = Route.useLoaderData();
 
   return (
     <div>
@@ -20,7 +23,8 @@ const Page = async () => {
         {years.map(({ year, count }) => (
           <Link
             key={year}
-            href={`/${year}`}
+            to="/$year"
+            params={{ year: year.toString() }}
             className="border-border hover:bg-accent flex items-center justify-between rounded-lg border p-3 transition-colors"
           >
             <span className="text-foreground text-lg font-medium">{year}</span>
@@ -36,6 +40,4 @@ const Page = async () => {
       )}
     </div>
   );
-};
-
-export default Page;
+}

@@ -1,16 +1,20 @@
-import { NextResponse } from "next/server";
+import { createFileRoute } from "@tanstack/react-router";
+
+import { BASE_DESC, BASE_TITLE } from "@/config/constants";
 import { getAllPostInfo } from "@/lib/posts";
-import { BASE_TITLE, BASE_DESC } from "@/config/constants";
 
 const SITE_URL = process.env.SITE_URL || "https://wanten.org";
 
-export async function GET() {
-  const posts = getAllPostInfo();
+export const Route = createFileRoute("/api/rss")({
+  server: {
+    handlers: {
+      GET: async () => {
+        const posts = getAllPostInfo();
 
-  const rssItems = posts
-    .map((post) => {
-      const pubDate = new Date(post.date).toUTCString();
-      return `
+        const rssItems = posts
+          .map((post) => {
+            const pubDate = new Date(post.date).toUTCString();
+            return `
     <item>
       <title>${post.title}</title>
       <link>${SITE_URL}${post.slug}</link>
@@ -18,10 +22,10 @@ export async function GET() {
       <pubDate>${pubDate}</pubDate>
     </item>
     `;
-    })
-    .join("");
+          })
+          .join("");
 
-  const rss = `<?xml version="1.0" encoding="UTF-8"?>
+        const rss = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>${BASE_TITLE}</title>
@@ -34,9 +38,12 @@ export async function GET() {
   </channel>
 </rss>`;
 
-  return new NextResponse(rss, {
-    headers: {
-      "Content-Type": "text/xml",
+        return new Response(rss, {
+          headers: {
+            "Content-Type": "text/xml",
+          },
+        });
+      },
     },
-  });
-}
+  },
+});

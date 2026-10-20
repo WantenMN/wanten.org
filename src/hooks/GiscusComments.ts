@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useTheme } from "next-themes";
+import { useTheme } from "@/components/theme-provider";
 
 const GiscusComments = () => {
   const { resolvedTheme } = useTheme();

@@ -1,17 +1,15 @@
-"use client";
-
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { Link, useRouterState } from "@tanstack/react-router";
 import { Rss, UserRound } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
 import { Separator } from "./ui/separator";
 import { ThemeToggle } from "./theme-toggle";
-import Image from "next/image";
 
 const Navigation = () => {
-  const pathname = usePathname();
+  const pathname = useRouterState({
+    select: (state) => state.location.pathname,
+  });
   const pages = [
     {
       title: "",
@@ -27,8 +25,8 @@ const Navigation = () => {
 
   return (
     <nav className="flex w-full items-center justify-between select-none">
-      <Link href={"/"} className={cn("")} title="Home">
-        <Image src="/favicon.ico" alt="Home" width={24} height={24} />
+      <Link to="/" className={cn("")} title="Home">
+        <img src="/favicon.ico" alt="Home" width={24} height={24} />
       </Link>
 
       <ul className="text-muted-foreground flex leading-none">
@@ -38,16 +36,25 @@ const Navigation = () => {
         </li>
         {pages.map((page, index) => (
           <li key={index} className="flex">
-            <Link
-              href={page.path}
-              className={cn("hover:text-foreground flex items-center", {
-                "text-foreground underline": pathname === page.path,
-              })}
-              title={page.icon === "Rss" ? "RSS Feed" : page.title}
-            >
-              {page.icon === "UserRound" && <UserRound size={16} />}
-              {page.icon === "Rss" && <Rss size={16} />}
-            </Link>
+            {page.icon === "Rss" ? (
+              <a
+                href={page.path}
+                className="hover:text-foreground flex items-center"
+                title="RSS Feed"
+              >
+                <Rss size={16} />
+              </a>
+            ) : (
+              <Link
+                to="/about"
+                className={cn("hover:text-foreground flex items-center", {
+                  "text-foreground underline": pathname === page.path,
+                })}
+                title={page.title}
+              >
+                <UserRound size={16} />
+              </Link>
+            )}
             {index !== pages.length - 1 ? (
               <Separator orientation="vertical" />
             ) : (

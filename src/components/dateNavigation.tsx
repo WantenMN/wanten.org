@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "@tanstack/react-router";
 
 interface DateNavigationProps {
   type: "year" | "month" | "day";
@@ -26,27 +26,45 @@ const DateNavigation = ({
     return "";
   };
 
-  const getHref = () => {
-    if (type === "year") {
-      return "/years";
-    }
-    if (type === "month" && currentYear) {
-      return `/${currentYear}/months`;
-    }
-    if (type === "day" && currentYear && currentMonth) {
-      return `/${currentYear}/${String(currentMonth).padStart(2, "0")}/days`;
-    }
-    return "#";
-  };
+  if (type === "year") {
+    return (
+      <Link
+        to="/years"
+        className="text-foreground hover:text-muted-foreground text-2xl font-bold hover:underline focus:outline-none"
+      >
+        {getDisplayText()}
+      </Link>
+    );
+  }
 
-  return (
-    <Link
-      href={getHref()}
-      className="text-foreground hover:text-muted-foreground text-2xl font-bold hover:underline focus:outline-none"
-    >
-      {getDisplayText()}
-    </Link>
-  );
+  if (type === "month" && currentYear) {
+    return (
+      <Link
+        to="/$year/months"
+        params={{ year: String(currentYear) }}
+        className="text-foreground hover:text-muted-foreground text-2xl font-bold hover:underline focus:outline-none"
+      >
+        {getDisplayText()}
+      </Link>
+    );
+  }
+
+  if (type === "day" && currentYear && currentMonth) {
+    return (
+      <Link
+        to="/$year/$month/days"
+        params={{
+          year: String(currentYear),
+          month: String(currentMonth).padStart(2, "0"),
+        }}
+        className="text-foreground hover:text-muted-foreground text-2xl font-bold hover:underline focus:outline-none"
+      >
+        {getDisplayText()}
+      </Link>
+    );
+  }
+
+  return <>{getDisplayText()}</>;
 };
 
 export default DateNavigation;

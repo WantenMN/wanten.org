@@ -1,5 +1,5 @@
 {
-  description = "wanten.org (Next.js + pnpm) dev environment";
+  description = "wanten.org (TanStack Start + pnpm) dev environment";
 
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
@@ -28,8 +28,6 @@
             ];
 
             shellHook = ''
-              export NEXT_TELEMETRY_DISABLED=1
-
               echo "node $(node --version), pnpm $(pnpm --version)"
               echo "run 'pnpm install' first, then 'pnpm dev'"
             '';

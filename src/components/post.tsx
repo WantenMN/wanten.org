@@ -1,6 +1,4 @@
-"use client";
-
-import Link from "next/link";
+import { Link } from "@tanstack/react-router";
 
 import GiscusComments from "@/hooks/GiscusComments";
 import { useCodeCopy } from "@/hooks/useCodeCopy";
@@ -11,6 +9,11 @@ import { Separator } from "./ui/separator";
 type AdjacentPosts = {
   previousPost: AdjacentPost | null;
   nextPost: AdjacentPost | null;
+};
+
+const splitSlug = (slug: string) => {
+  const [year, month, day, slugPath] = slug.split("/").slice(1);
+  return { year, month, day, slug: slugPath };
 };
 
 const Post = ({
@@ -51,7 +54,8 @@ const Post = ({
             <div className="grid gap-3 sm:grid-cols-2">
               {adjacentPosts.nextPost ? (
                 <Link
-                  href={adjacentPosts.nextPost.slug}
+                  to="/$year/$month/$day/$slug"
+                  params={splitSlug(adjacentPosts.nextPost.slug)}
                   aria-label={`Go to newer post: ${adjacentPosts.nextPost.title}`}
                   className="group border-border hover:bg-accent flex min-h-16 items-center gap-3 rounded-lg border px-4 py-3 no-underline transition-colors"
                 >
@@ -70,7 +74,8 @@ const Post = ({
               )}
               {adjacentPosts.previousPost ? (
                 <Link
-                  href={adjacentPosts.previousPost.slug}
+                  to="/$year/$month/$day/$slug"
+                  params={splitSlug(adjacentPosts.previousPost.slug)}
                   aria-label={`Go to older post: ${adjacentPosts.previousPost.title}`}
                   className="group border-border hover:bg-accent flex min-h-16 items-center justify-end gap-3 rounded-lg border px-4 py-3 text-right no-underline transition-colors"
                 >

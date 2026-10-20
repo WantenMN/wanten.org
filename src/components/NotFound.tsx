@@ -1,12 +1,9 @@
-"use client";
-
-import { useEffect } from "react";
 import { BASE_TITLE } from "@/config/constants";
 
-export default function NotFound() {
-  useEffect(() => {
+export function NotFound() {
+  if (typeof document !== "undefined") {
     document.title = `Page Not Found - ${BASE_TITLE}`;
-  }, []);
+  }
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-20 text-center">

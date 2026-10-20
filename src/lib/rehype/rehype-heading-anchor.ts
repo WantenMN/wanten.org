@@ -107,7 +107,9 @@ export const rehypeHeadingAnchor = () => {
           slugCounts.set(baseSlug, count + 1);
 
           const currentProperties = child.properties ?? {};
-          const currentClassNames = toClassNameList(currentProperties.className);
+          const currentClassNames = toClassNameList(
+            currentProperties.className
+          );
           child.properties = {
             ...currentProperties,
             id,

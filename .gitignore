@@ -9,12 +9,12 @@
 # testing
 /coverage
 
-# next.js
-/.next/
+# build outputs (TanStack Start / Vite / Nitro)
+dist/
+.output/
+.nitro/
+build/
 /out/
-
-# production
-/build
 
 # misc
 .DS_Store
@@ -36,4 +36,6 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
-next-env.d.ts
+
+# tanstack router generated route tree
+src/routeTree.gen.ts
