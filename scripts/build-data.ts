@@ -125,14 +125,18 @@ function latestDate(posts: PostData[]): Date {
 function buildRss(posts: PostData[]): string {
   const visible = posts.filter((post) => !post.hidden);
   const items = visible
-    .map((post) => {
+    .map((post, index) => {
       const pubDate = new Date(post.date).toUTCString();
+      // Latest 50 keep full content; older ones title only to bound file size.
+      const description =
+        index < 50
+          ? `\n      <description>${escapeXml(post.contentHtml)}</description>`
+          : "";
       return `    <item>
       <title>${escapeXml(post.title)}</title>
       <link>${SITE_URL}${post.slug}</link>
       <guid>${SITE_URL}${post.slug}</guid>
-      <pubDate>${pubDate}</pubDate>
-      <description>${escapeXml(post.contentHtml)}</description>
+      <pubDate>${pubDate}</pubDate>${description}
     </item>`;
     })
     .join("\n");
