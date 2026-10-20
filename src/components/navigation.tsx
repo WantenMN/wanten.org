@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Rss, UserRound, Tags } from "lucide-react";
+import { Rss, UserRound } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
@@ -22,11 +22,6 @@ const Navigation = () => {
       title: "About",
       path: "/about",
       icon: "UserRound",
-    },
-    {
-      title: "Tags",
-      path: "/tags",
-      icon: "Tags",
     },
   ];
 
@@ -51,7 +46,6 @@ const Navigation = () => {
               title={page.icon === "Rss" ? "RSS Feed" : page.title}
             >
               {page.icon === "UserRound" && <UserRound size={16} />}
-              {page.icon === "Tags" && <Tags size={16} />}
               {page.icon === "Rss" && <Rss size={16} />}
             </Link>
             {index !== pages.length - 1 ? (

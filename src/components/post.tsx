@@ -7,7 +7,6 @@ import { useCodeCopy } from "@/hooks/useCodeCopy";
 import { AdjacentPost, PostData } from "@/lib/posts";
 
 import { Separator } from "./ui/separator";
-import Tags from "./tags";
 
 type AdjacentPosts = {
   previousPost: AdjacentPost | null;
@@ -39,7 +38,6 @@ const Post = ({
         >
           <span>{postData.date}</span>
         </a>
-        <Tags tags={postData.tags} className="mt-2" />
       </section>
       <section
         className="markdown-body"

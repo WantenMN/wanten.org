@@ -59,7 +59,6 @@ export async function generateMetadata({
   }
   return {
     title: `${postData.title} - ${BASE_TITLE}`,
-    description: postData.desc,
   };
 }
 

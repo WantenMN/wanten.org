@@ -13,7 +13,6 @@ export async function GET() {
       return `
     <item>
       <title>${post.title}</title>
-      <description>${post.desc}</description>
       <link>${SITE_URL}${post.slug}</link>
       <guid>${SITE_URL}${post.slug}</guid>
       <pubDate>${pubDate}</pubDate>

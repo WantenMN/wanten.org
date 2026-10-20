@@ -5,7 +5,6 @@ import Link from "next/link";
 import { AllPostInfo } from "@/lib/posts";
 
 import { Separator } from "./ui/separator";
-import Tags from "./tags";
 
 const PostList = ({ allPostInfo }: { allPostInfo: AllPostInfo }) => {
   return (
@@ -18,7 +17,6 @@ const PostList = ({ allPostInfo }: { allPostInfo: AllPostInfo }) => {
           >
             {post.title}
           </Link>
-          <p className="text-muted-foreground my-2">{post.desc}</p>
           <span className="text-muted-foreground block text-sm">
             {(() => {
               const [datePart, timePart] = post.date.split(" ");
@@ -51,7 +49,6 @@ const PostList = ({ allPostInfo }: { allPostInfo: AllPostInfo }) => {
               );
             })()}
           </span>
-          <Tags tags={post.tags} />
 
           {index !== allPostInfo.length - 1 && <Separator />}
         </li>

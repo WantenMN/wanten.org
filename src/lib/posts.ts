@@ -19,9 +19,7 @@ function extractTitleFromMarkdown(content: string): string {
 }
 
 export interface Frontmatter {
-  desc: string;
   date: string;
-  tags: string[];
   path: string;
   hidden?: boolean;
 }
@@ -189,26 +187,6 @@ export function getPostsByDate(
     }
     return true;
   });
-}
-
-export function getPostsByTag(tag: string): AllPostInfo {
-  const allPosts = getAllPostInfo({ includeHidden: false });
-  return allPosts.filter((post) => post.tags && post.tags.includes(tag));
-}
-
-export function getAllTags(): { tag: string; count: number }[] {
-  const allPosts = getAllPostInfo({ includeHidden: false });
-  const tagCounts: Record<string, number> = {};
-  allPosts.forEach((post) => {
-    if (post.tags) {
-      post.tags.forEach((tag) => {
-        tagCounts[tag] = (tagCounts[tag] || 0) + 1;
-      });
-    }
-  });
-  return Object.entries(tagCounts)
-    .map(([tag, count]) => ({ tag, count }))
-    .sort((a, b) => b.count - a.count);
 }
 
 export function getYearsWithCount(): { year: number; count: number }[] {
