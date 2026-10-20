@@ -13,14 +13,12 @@ import { rehypeHeadingAnchor } from "./rehype/rehype-heading-anchor";
 
 const postsDirectory = path.join(process.cwd(), "posts");
 
-function extractTitleFromMarkdown(content: string): string {
-  const match = content.match(/^#\s+(.+)$/m);
-  return match ? match[1].trim() : "";
+function extractTitleFromFilename(filePath: string): string {
+  return path.basename(filePath, ".md");
 }
 
 export interface Frontmatter {
   date: string;
-  path: string;
   hidden?: boolean;
 }
 
@@ -66,13 +64,18 @@ export function getAllPostInfo({
         const fileContents = fs.readFileSync(itemPath, "utf8");
         const matterResult = matter(fileContents);
         const data = matterResult.data as Frontmatter;
-        if (data.path && (includeHidden || !data.hidden)) {
+        if (data.date && (includeHidden || !data.hidden)) {
           const date = new Date(data.date);
+          if (isNaN(date.getTime())) {
+            throw new Error(`Invalid date "${data.date}" in ${itemPath}`);
+          }
           const year = date.getFullYear();
           const month = String(date.getMonth() + 1).padStart(2, "0");
           const day = String(date.getDate()).padStart(2, "0");
-          const slug = `/${year}/${month}/${day}/${data.path}`;
-          const title = extractTitleFromMarkdown(matterResult.content);
+          const hour = String(date.getHours()).padStart(2, "0");
+          const minute = String(date.getMinutes()).padStart(2, "0");
+          const slug = `/${year}/${month}/${day}/${hour}${minute}`;
+          const title = extractTitleFromFilename(itemPath);
           allPosts.push({
             ...data,
             id: item.replace(/\.md$/, ""),
@@ -86,6 +89,17 @@ export function getAllPostInfo({
   };
 
   getPostsFromDir(postsDirectory);
+
+  const seenSlugs = new Map<string, string>();
+  for (const post of allPosts) {
+    const existing = seenSlugs.get(post.slug);
+    if (existing) {
+      throw new Error(
+        `Duplicate slug "${post.slug}" from date "${post.date}": ${existing} and ${post.filePath}. Posts sharing the same minute collide; adjust the date to be unique.`
+      );
+    }
+    seenSlugs.set(post.slug, post.filePath);
+  }
 
   return allPosts.sort((a, b) => {
     return new Date(b.date).getTime() - new Date(a.date).getTime();
@@ -105,8 +119,12 @@ export async function getPostData({
   const fullPath = path.join(postsDirectory, postInfo.filePath);
   const fileContents = fs.readFileSync(fullPath, "utf8");
   const matterResult = matter(fileContents);
-  const title = extractTitleFromMarkdown(matterResult.content);
-  const contentWithoutH1 = matterResult.content.replace(/^#\s+.+$/m, "").trim();
+  const title = postInfo.title;
+  let markdownBody = matterResult.content.trim();
+  const h1Match = markdownBody.match(/^#\s+(.+)$/m);
+  if (h1Match && h1Match[1].trim() === title) {
+    markdownBody = markdownBody.replace(/^#\s+.+$/m, "").trim();
+  }
   const processedContent = await unified()
     .use(remarkParse)
     .use(remarkRehype)
@@ -121,7 +139,7 @@ export async function getPostData({
     .use(rehypeHeadingAnchor)
     .use(rehypeExternalLinks, { target: "_blank" })
     .use(rehypeStringify)
-    .process(contentWithoutH1);
+    .process(markdownBody);
   const contentHtml = processedContent.toString();
 
   return {

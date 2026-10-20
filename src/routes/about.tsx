@@ -4,7 +4,7 @@ import Post from "@/components/post";
 import { BASE_TITLE } from "@/config/constants";
 import { getPostDataFn } from "@/lib/posts.functions";
 
-const ABOUT_SLUG = "/2024/09/27/about";
+const ABOUT_SLUG = "/2024/09/27/1422";
 
 export const Route = createFileRoute("/about")({
   loader: async () => {
