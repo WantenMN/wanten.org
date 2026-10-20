@@ -10,7 +10,7 @@ import { unified } from "unified";
 
 import { rehypeCodeCopyButton } from "../src/lib/rehype/rehype-code-copy-button";
 import { rehypeHeadingAnchor } from "../src/lib/rehype/rehype-heading-anchor";
-import type { PostData } from "../src/lib/posts";
+import type { PostData } from "../src/lib/post-utils";
 import { collectUrls } from "./urls";
 
 const SITE_URL = "https://www.wanten.org";

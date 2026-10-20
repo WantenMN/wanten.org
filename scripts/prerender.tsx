@@ -6,6 +6,7 @@ import {
 } from "@tanstack/react-router/ssr/server";
 
 import { getRouter } from "../src/router";
+import type { PostData } from "../src/lib/post-utils";
 import { collectUrls } from "./urls";
 
 const SITE_URL = "https://www.wanten.org";
@@ -75,7 +76,13 @@ function outputPath(urlPath: string): string {
 }
 
 const assets = collectEntryAssets();
-const urls = collectUrls();
+const generatedPosts = JSON.parse(
+  fs.readFileSync(
+    path.join(process.cwd(), "src", "generated", "posts.json"),
+    "utf8"
+  )
+) as PostData[];
+const urls = collectUrls(generatedPosts);
 
 for (const urlPath of urls) {
   const handler = createRequestHandler({
