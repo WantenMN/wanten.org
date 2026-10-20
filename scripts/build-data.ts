@@ -11,6 +11,7 @@ import { unified } from "unified";
 import { rehypeCodeCopyButton } from "../src/lib/rehype/rehype-code-copy-button";
 import { rehypeHeadingAnchor } from "../src/lib/rehype/rehype-heading-anchor";
 import type { PostData } from "../src/lib/posts";
+import { collectUrls } from "./urls";
 
 const SITE_URL = "https://www.wanten.org";
 const POSTS_DIR = path.join(process.cwd(), "posts");
@@ -115,6 +116,12 @@ function escapeXml(value: string): string {
     .replace(/'/g, "&apos;");
 }
 
+function latestDate(posts: PostData[]): Date {
+  return new Date(
+    Math.max(...posts.map((post) => new Date(post.date).getTime()))
+  );
+}
+
 function buildRss(posts: PostData[]): string {
   const visible = posts.filter((post) => !post.hidden);
   const items = visible
@@ -125,6 +132,7 @@ function buildRss(posts: PostData[]): string {
       <link>${SITE_URL}${post.slug}</link>
       <guid>${SITE_URL}${post.slug}</guid>
       <pubDate>${pubDate}</pubDate>
+      <description>${escapeXml(post.contentHtml)}</description>
     </item>`;
     })
     .join("\n");
@@ -135,42 +143,45 @@ function buildRss(posts: PostData[]): string {
     <description>Wanten's personal website showcases his work and thoughts.</description>
     <link>${SITE_URL}</link>
     <atom:link href="${SITE_URL}/rss.xml" rel="self" type="application/rss+xml" />
-    <language>en-us</language>
-    <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
+    <language>zh-CN</language>
+    <lastBuildDate>${latestDate(posts).toUTCString()}</lastBuildDate>
 ${items}
   </channel>
 </rss>
 `;
 }
 
-function buildSitemap(posts: PostData[]): string {
-  const urls = [
-    { loc: SITE_URL, lastmod: new Date().toISOString() },
-    ...posts.map((post) => ({
-      loc: `${SITE_URL}${post.slug}`,
-      lastmod: new Date(post.date).toISOString(),
-    })),
-  ];
+function buildSitemap(urls: string[], posts: PostData[]): string {
+  const dateBySlug = new Map(posts.map((post) => [post.slug, post.date]));
+  const fallback = latestDate(posts).toISOString();
   return `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${urls
-  .map(
-    (url) => `  <url>
-    <loc>${url.loc}</loc>
-    <lastmod>${url.lastmod}</lastmod>
-  </url>`
-  )
+  .map((urlPath) => {
+    const loc = urlPath === "/" ? SITE_URL : `${SITE_URL}${urlPath}`;
+    const lastmod = dateBySlug.has(urlPath)
+      ? new Date(dateBySlug.get(urlPath) as string).toISOString()
+      : fallback;
+    return `  <url>
+    <loc>${loc}</loc>
+    <lastmod>${lastmod}</lastmod>
+  </url>`;
+  })
   .join("\n")}
 </urlset>
 `;
 }
 
 const posts = await buildPosts();
+const visiblePosts = posts.filter((post) => !post.hidden);
 fs.mkdirSync(GENERATED_DIR, { recursive: true });
 fs.writeFileSync(
   path.join(GENERATED_DIR, "posts.json"),
   `${JSON.stringify(posts, null, 2)}\n`
 );
 fs.writeFileSync(path.join(PUBLIC_DIR, "rss.xml"), buildRss(posts));
-fs.writeFileSync(path.join(PUBLIC_DIR, "sitemap.xml"), buildSitemap(posts));
+fs.writeFileSync(
+  path.join(PUBLIC_DIR, "sitemap.xml"),
+  buildSitemap(collectUrls(visiblePosts), posts)
+);
 console.log(`Generated ${posts.length} posts, rss.xml and sitemap.xml.`);

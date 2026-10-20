@@ -8,6 +8,7 @@ import type { ReactNode } from "react";
 
 import Container from "@/components/container";
 import { NotFound } from "@/components/NotFound";
+import { RouteError } from "@/components/RouteError";
 import { ThemeProvider } from "@/components/theme-provider";
 import { BASE_DESC, BASE_TITLE } from "@/config/constants";
 
@@ -41,6 +42,7 @@ export const Route = createRootRoute({
   }),
   component: RootComponent,
   notFoundComponent: NotFound,
+  errorComponent: RouteError,
 });
 
 function RootComponent() {
@@ -62,7 +64,7 @@ function RootComponent() {
 
 function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="zh-CN" suppressHydrationWarning>
       <head>
         <HeadContent />
       </head>

@@ -5,13 +5,8 @@ import {
   defaultRenderHandler,
 } from "@tanstack/react-router/ssr/server";
 
-import {
-  getDaysWithCount,
-  getMonthsWithCount,
-  getPostsByDate,
-  getYearsWithCount,
-} from "../src/lib/posts";
 import { getRouter } from "../src/router";
+import { collectUrls } from "./urls";
 
 const SITE_URL = "https://www.wanten.org";
 const DIST_DIR = path.join(process.cwd(), "dist");
@@ -71,26 +66,6 @@ function injectAssets(html: string, assets: { js: string[]; css: string[] }) {
   return html
     .replace("</head>", `${cssTags}</head>`)
     .replace("</body>", `${jsTags}</body>`);
-}
-
-function collectUrls(): string[] {
-  const urls = new Set<string>(["/", "/about", "/years"]);
-  for (const { year } of getYearsWithCount()) {
-    urls.add(`/${year}`);
-    urls.add(`/${year}/months`);
-    for (const { month } of getMonthsWithCount(year)) {
-      const paddedMonth = String(month).padStart(2, "0");
-      urls.add(`/${year}/${paddedMonth}`);
-      urls.add(`/${year}/${paddedMonth}/days`);
-      for (const { day } of getDaysWithCount(year, month)) {
-        urls.add(`/${year}/${paddedMonth}/${String(day).padStart(2, "0")}`);
-      }
-    }
-  }
-  for (const post of getPostsByDate()) {
-    urls.add(post.slug);
-  }
-  return [...urls];
 }
 
 function outputPath(urlPath: string): string {
