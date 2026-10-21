@@ -9,6 +9,9 @@ import { livePosts } from "./scripts/vite-live-posts.ts";
 export default defineConfig({
   server: {
     port: 3000,
+    warmup: {
+      clientFiles: ["./src/main.tsx"],
+    },
   },
   resolve: {
     alias: {
