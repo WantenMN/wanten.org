@@ -1,7 +1,8 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Rss, UserRound } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+
+import { RssIcon, UserRoundIcon } from "./icons";
 
 import { Separator } from "./ui/separator";
 import { ThemeToggle } from "./theme-toggle";
@@ -42,7 +43,7 @@ const Navigation = () => {
                 className="hover:text-foreground flex items-center"
                 title="RSS Feed"
               >
-                <Rss size={16} />
+                <RssIcon size={16} />
               </a>
             ) : (
               <Link
@@ -52,7 +53,7 @@ const Navigation = () => {
                 })}
                 title={page.title}
               >
-                <UserRound size={16} />
+                <UserRoundIcon size={16} />
               </Link>
             )}
             {index !== pages.length - 1 ? (

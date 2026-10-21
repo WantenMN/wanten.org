@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Moon, Sun } from "lucide-react";
+import { MoonIcon, SunIcon } from "./icons";
 import { useTheme } from "./theme-provider";
 
 export function ThemeToggle() {
@@ -24,7 +24,7 @@ export function ThemeToggle() {
   };
 
   if (!mounted) {
-    return <Sun size={16} className="text-muted-foreground" />;
+    return <SunIcon size={16} className="text-muted-foreground" />;
   }
 
   return (
@@ -35,7 +35,7 @@ export function ThemeToggle() {
         currentTheme === "dark" ? "Switch to light mode" : "Switch to dark mode"
       }
     >
-      {currentTheme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
+      {currentTheme === "dark" ? <SunIcon size={16} /> : <MoonIcon size={16} />}
     </button>
   );
 }
