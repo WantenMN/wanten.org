@@ -4,6 +4,8 @@ import { TanStackRouterVite } from "@tanstack/router-plugin/vite";
 import viteReact from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 
+import { livePosts } from "./scripts/vite-live-posts.ts";
+
 export default defineConfig({
   server: {
     port: 3000,
@@ -17,6 +19,7 @@ export default defineConfig({
     manifest: true,
   },
   plugins: [
+    livePosts(),
     tailwindcss(),
     TanStackRouterVite({
       target: "react",

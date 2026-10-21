@@ -18,6 +18,11 @@ if (import.meta.env.PROD) {
     </StrictMode>
   );
 } else {
+  if (import.meta.hot) {
+    import.meta.hot.on("live-posts:update", () => {
+      void router.invalidate();
+    });
+  }
   hydrateRoot(document, <RouterProvider router={router} />, {
     onRecoverableError: (error) => {
       if (

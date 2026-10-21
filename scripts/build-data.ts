@@ -1,6 +1,5 @@
 import fs from "node:fs";
 import path from "node:path";
-import matter from "gray-matter";
 import rehypeExternalLinks from "rehype-external-links";
 import rehypeShiki from "@shikijs/rehype";
 import rehypeStringify from "rehype-stringify";
@@ -12,15 +11,17 @@ import { rehypeCodeCopyButton } from "../src/lib/rehype/rehype-code-copy-button"
 import { rehypeHeadingAnchor } from "../src/lib/rehype/rehype-heading-anchor";
 import type { PostData } from "../src/lib/post-utils";
 import { collectUrls } from "./urls";
+import {
+  assertNoDuplicateSlugs,
+  collectPostFiles,
+  parsePostFile,
+  sortPostsByDateDesc,
+  toPostData,
+} from "./post-shared";
 
 const SITE_URL = "https://www.wanten.org";
-const POSTS_DIR = path.join(process.cwd(), "posts");
 const GENERATED_DIR = path.join(process.cwd(), "src", "generated");
 const PUBLIC_DIR = path.join(process.cwd(), "public");
-
-function extractTitleFromFilename(filePath: string): string {
-  return path.basename(filePath, ".md");
-}
 
 async function renderMarkdown(markdownBody: string): Promise<string> {
   const processed = await unified()
@@ -42,69 +43,21 @@ async function renderMarkdown(markdownBody: string): Promise<string> {
 }
 
 async function buildPosts(): Promise<PostData[]> {
-  const filePaths: string[] = [];
-  const collect = (directory: string) => {
-    for (const item of fs.readdirSync(directory)) {
-      const itemPath = path.join(directory, item);
-      if (fs.statSync(itemPath).isDirectory()) {
-        collect(itemPath);
-      } else if (item.endsWith(".md")) {
-        filePaths.push(itemPath);
-      }
-    }
-  };
-  collect(POSTS_DIR);
+  const filePaths = collectPostFiles();
 
   const posts: PostData[] = [];
   for (const itemPath of filePaths) {
-    const fileContents = fs.readFileSync(itemPath, "utf8");
-    const matterResult = matter(fileContents);
-    const data = matterResult.data as { date?: string; hidden?: boolean };
-    if (!data.date) {
+    const parsed = parsePostFile(itemPath);
+    if (!parsed) {
       continue;
     }
-    const date = new Date(data.date);
-    if (isNaN(date.getTime())) {
-      throw new Error(`Invalid date "${data.date}" in ${itemPath}`);
-    }
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const day = String(date.getDate()).padStart(2, "0");
-    const hour = String(date.getHours()).padStart(2, "0");
-    const minute = String(date.getMinutes()).padStart(2, "0");
-    const slug = `/${year}/${month}/${day}/${hour}${minute}`;
-    const title = extractTitleFromFilename(itemPath);
-    let markdownBody = matterResult.content.trim();
-    const h1Match = markdownBody.match(/^#\s+(.+)$/m);
-    if (h1Match && h1Match[1].trim() === title) {
-      markdownBody = markdownBody.replace(/^#\s+.+$/m, "").trim();
-    }
-    const contentHtml = await renderMarkdown(markdownBody);
-    posts.push({
-      date: data.date,
-      hidden: data.hidden,
-      id: path.basename(itemPath, ".md"),
-      filePath: path.relative(POSTS_DIR, itemPath),
-      slug,
-      title,
-      contentHtml,
-    });
+    const contentHtml = await renderMarkdown(parsed.markdownBody);
+    posts.push(toPostData(parsed, contentHtml));
   }
 
-  const seenSlugs = new Map<string, string>();
-  for (const post of posts) {
-    const existing = seenSlugs.get(post.slug);
-    if (existing) {
-      throw new Error(
-        `Duplicate slug "${post.slug}" from date "${post.date}": ${existing} and ${post.filePath}. Posts sharing the same minute collide; adjust the date to be unique.`
-      );
-    }
-    seenSlugs.set(post.slug, post.filePath);
-  }
+  assertNoDuplicateSlugs(posts);
 
-  return posts.sort(
-    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-  );
+  return sortPostsByDateDesc(posts);
 }
 
 function escapeXml(value: string): string {
