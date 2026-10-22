@@ -1,4 +1,3 @@
-import path from "node:path";
 import rehypeExternalLinks from "rehype-external-links";
 import rehypeStringify from "rehype-stringify";
 import remarkParse from "remark-parse";
@@ -75,10 +74,11 @@ export function livePosts(): Plugin {
     enforce: "pre",
     apply: "serve",
     resolveId(source, importer) {
+      const normalizedImporter = importer?.replace(/\\/g, "/");
+      const normalizedSource = source.replace(/\\/g, "/");
       if (
-        importer?.endsWith(path.join("src", "lib", "posts.ts")) &&
-        (source.includes("generated/posts.json") ||
-          source.includes("generated\\posts.json"))
+        normalizedImporter?.endsWith("src/lib/posts.ts") &&
+        normalizedSource.includes("generated/posts.json")
       ) {
         return RESOLVED_ID;
       }
